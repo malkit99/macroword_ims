@@ -24,10 +24,17 @@
               
               </v-toolbar>
               <v-card-text>
-                <v-form ref="loginForm" :value="formValid">
+
+                <v-alert type="error" dense outlined v-if="allerror">
+                  <ul v-for="(error , index) in allerror" :key="index">
+                    <li>{{error[0]}}</li>  
+                  </ul>
+                </v-alert>
+                <v-form ref="loginForm" v-model="valid" >
                   <v-text-field
                     label="Login"
                     name="email"
+                    :rules="[...requiredRules , ...emailRules]"
                     v-model="user.email"
                     type="email"
                   />
@@ -36,12 +43,14 @@
                     id="password"
                     label="Password"
                     v-model="user.password"
+                    :rules="[...requiredRules , ...passwordRules]"
                     name="password"
                     type="password"
                   />
                 </v-form>
               </v-card-text>
               <v-card-actions>
+                <v-btn text color="primary" :to="{name: 'forgot-password'}">Forgot Password</v-btn>
                 <v-spacer />
                 <v-btn color="primary" @click="userLogin">Login</v-btn>
               </v-card-actions>
@@ -54,23 +63,27 @@
 
 <script>
 import {mapActions} from 'vuex'
+import PasswordValidationMixin from '../../mixins/PasswordValidationMixin'
+
 export default {
     name:"login",
+    mixins:[PasswordValidationMixin],
     data() {
       return {
+        valid:true,
         user:{
           email:'',
           password:''
         },
 
-        formValid:false,
+        allerror:'',
       }
     },
 
     methods: {
       ...mapActions({
         loginUser : 'user/loginUser',
-         addNotification:'application/addNotification'
+        addNotification:'application/addNotification'
       }),
       userLogin(){
         if(this.$refs.loginForm.validate()){
@@ -82,11 +95,14 @@ export default {
                   text : 'You Are Login Successfully'
               })
           })
-          .catch(()=>{
+          .catch((error)=>{
+            console.log(error);
              this.addNotification({
                   show: true,
                   text : 'Login Failed Something Wrong'
               })
+
+              this.allerror = error.response.data.errors
           })
         }
       }

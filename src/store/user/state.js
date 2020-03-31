@@ -1,10 +1,6 @@
 export default{
     isLoggedIn:false,
-    userDetail:{}
+    userDetail:{},
+ 
 };
 
-const getters = {
-    loggedIn(state){
-        return state.isLoggedIn
-    }
-};

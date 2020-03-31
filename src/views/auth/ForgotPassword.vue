@@ -28,6 +28,7 @@
                   <v-text-field
                     label="Email "
                     name="email"
+                    :rules="[...requiredRules , ...emailRules]"
                     v-model="email"
                     type="email"
                   />
@@ -47,8 +48,10 @@
 
 <script>
 import {mapActions} from 'vuex'
+import PasswordValidationMixin from '../../mixins/PasswordValidationMixin'
 export default {
     name:"ForgotPassword",
+    mixins:[PasswordValidationMixin],
     data() {
       return {
 

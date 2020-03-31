@@ -1,22 +1,8 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-    <v-toolbar-title>
-       Macroword
-    </v-toolbar-title>
 
-      <v-spacer></v-spacer>
-
-     <v-btn color="success" @click="logout" v-if="loggedIn">logout</v-btn>
-    </v-app-bar>
-
-    <v-content>
       <router-view></router-view>
-    </v-content>
+
      <v-snackbar
                   :key="index"
                   v-for="(snackbar , index) in getNotifications"
@@ -35,6 +21,11 @@
                     Close
                   </v-btn>
       </v-snackbar>
+
+
+ 
+
+
   </v-app>
   
 </template>
@@ -44,52 +35,34 @@
 import {mapGetters , mapActions } from 'vuex'
 export default {
   name: 'App',
-
-
-
-  data: () => ({
- 
-  }),
-
   created() {
-   this.checkUserState(); 
+   this.checkUserState()
+   .then(()=>{
+     if(this.loggedIn){
+       this.me().then(() => {
+      
+       })
+     }
+   }) 
   },
 
   computed: {
 
     ...mapGetters({
-      loggedIn:'user/loggedIn',
       getNotifications:'application/getNotifications',
+      loggedIn:'user/loggedIn'
     }),
    
   },
 
   methods: {
     ...mapActions({
-      loggedOut:'user/loggedOut',
       checkUserState:'user/setLoggedInState',
       removeNotification:'application/removeNotification',
-      addNotification:'application/addNotification'
+      addNotification:'application/addNotification',
+      me:'user/me'
 
     }),
-    logout(){
-      this.loggedOut()
-      .then(()=>{
-
-        this.$router.push({name:'login'});
-         this.addNotification({
-            show: true,
-            text : 'You are successfully Logout'
-        })
-      })
-      .catch(()=>{
-           this.addNotification({
-              show: true,
-              text : 'Something went wrong '
-          })
-      })
-    },
-
     updateNotification(show , index){
         if(!show){
           this.removeNotification(index);

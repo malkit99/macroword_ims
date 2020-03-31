@@ -29,6 +29,7 @@
                     id="email"
                     label="Email"
                     v-model="user.email"
+                    :rules="[...requiredRules , ...emailRules]"
                     name="email"
                     type="email"
                   />
@@ -37,6 +38,7 @@
                     id="password"
                     label=" New Password"
                     v-model="user.password"
+                    :rules="[...requiredRules , ...passwordRules , customValidtor]"
                     name="password"
                     type="password"
                   />
@@ -44,6 +46,7 @@
                    <v-text-field
                     label="Confirm Password"
                     v-model="user.password_confirmation"
+                    :rules="[...requiredRules , ...passwordRules , customValidtor]"
                     name="password_confirmation"
                     type="password"
                   />
@@ -63,8 +66,10 @@
 
 <script>
 import {mapActions} from 'vuex'
+import PasswordValidationMixin from '../../mixins/PasswordValidationMixin'
 export default {
     name:"ResetPassword",
+    mixins:[PasswordValidationMixin],
     data() {
       return {
         formValid:false,
@@ -103,7 +108,10 @@ export default {
               })
               
           }
-      }
+      },
+         customValidtor(){
+              return (this.user.password_confirmation === this.user.password)||"New Password does not match";
+            }
     },
-}
+} 
 </script>

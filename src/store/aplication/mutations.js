@@ -5,5 +5,6 @@ export default{
 
      removeNotification(state , payload){
         state.notification.splice(payload , 1);
-     }
+     },
+
 };

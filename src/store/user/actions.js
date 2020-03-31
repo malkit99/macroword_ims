@@ -1,59 +1,56 @@
-
-import axios from '../../axios/index'
+import axios from 'axios'
 export default {
+    
     loginUser(ctx , payload ){
         return new Promise( (resolve , reject ) => {
-            axios.post('login' , payload )
-            .then((response) => {
-            if(response.data.access_token){
-                localStorage.setItem('token',response.data.access_token);
-                ctx.commit('setLoggedIn' , true )
+            axios.get('airlock/csrf-cookie')
+                .then(response =>{
+                axios.post('login' , payload )
+                .then((response) => { 
+                console.log(response.data);
+                if(response.status==200 || response.statusText == "OK"){
+                    ctx.commit('setLoggedIn' , true )
+                    localStorage.setItem('loggedin',true);
+                    resolve(response)
+                }
                 resolve(response)
-            }else{
-                reject(response)
-            }
-  
-            })
-            .catch((error)=>{
-                reject(error)
-            })
+                
+                })
+                .catch((error)=>{
+                    console.log(error);
+                    reject(error)
+                })
+
+            });
         })
     },
 
-    registerUser(ctx , payload ){
-        return new Promise( (resolve , reject ) => {
-            axios.post('register' , payload )
-            .then((response) => {
-            if(response.data){
-                resolve(response)
-            }else{
-                reject(response)
-            }
-  
-            })
-            .catch((error)=>{
-                reject(error)
-            })
-        })
-    },
+
 
     loggedOut(ctx){
         return new Promise((resolve) => {
-            localStorage.removeItem('token');
-            ctx.commit('setLoggedIn' , false);
-            resolve(true)
+            axios.post('/logout')
+            .then((response) => {
+                console.log(response);
+                localStorage.removeItem('loggedin', true);
+                ctx.commit('SET_LOGGED_OUT', false )
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(response);
+            })
         })
     },
 
     setLoggedInState(ctx){
         return new Promise((resolve , reject) => {
-            if(localStorage.getItem('token')){
+            if(localStorage.getItem('loggedin', true)){
                 ctx.commit('setLoggedIn' , true);
                 resolve(true)
 
             }else{
                 
-                ctx.commit('setLoggedIn' , false);
+                ctx.commit('setLoggedIn');
                 resolve(false)
 
             }
@@ -62,35 +59,66 @@ export default {
 
     forgotPassword(ctx ,payload){
         return new Promise((resolve , reject)=>{
-            axios.post('forgot-password' , payload)
-            .then((response) => {
-                resolve(response)
-            })
-            .catch((error)=>{
-                reject(error)
+            axios.get('airlock/csrf-cookie') 
+            .then((response)=>{
+                axios.post('api/forgot-password' , payload)
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error)=>{
+                    console.log(error)
+                    reject(error)
+                })
+
             })
         })
     },
 
     resetNewPassword(ctx , payload ){
         return new Promise((resolve , reject)=>{
-            axios.post('reset-password' , payload)
+            axios.get('airlock/csrf-cookie')
             .then((response) => {
-                resolve(response)
+                axios.post('api/reset-password' , payload)
+                .then((response) => {
+                    resolve(response)
+                })
+                .catch((error)=>{
+                    reject(error)
+                })
+            })
+            })
+    },
+
+    me(ctx){
+        return new Promise ((resolve, reject ) => {        
+            axios.get('api/user')
+            .then((response) => {
+                console.log(response);
+                if(response.status==200 || response.statusText == "OK"){  
+                    ctx.commit('setUserDetails' , response.data.data );       
+                }
+                resolve(response) 
             })
             .catch((error)=>{
+                console.log(error)
                 reject(error)
             })
         })
     },
 
-    me(ctx){
+    changePassword(ctx, payload){
         return new Promise ((resolve, reject ) => {
-            axios.get('me')
+            axios.post('change-password', payload)
             .then((response) => {
-                ctx.commit('setUserDetails' , response.data );
-                window.console.log(response.data);
-                resolve(response)
+                console.log(response.data)
+                if(response.data){
+
+                    resolve(response)
+                }
+                else{
+                reject(response)
+
+                }
             })
             .catch((error)=>{
                 reject(error)
