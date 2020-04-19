@@ -162,8 +162,6 @@ import {mapGetters , mapActions } from 'vuex'
       items: [
         { icon: 'mdi-account-circle', text: 'Dashboard' , link:'/dashboard' },
         { icon: 'mdi-account-circle', text: 'Manage Users' , link:'/users'},
-        { icon: 'mdi-history', text: 'Frequently contacted' },
-        { icon: 'mdi-content-copy', text: 'Duplicates' },
         {
           icon: 'mdi-chevron-up',
           'icon-alt': 'mdi-chevron-down',
@@ -180,17 +178,12 @@ import {mapGetters , mapActions } from 'vuex'
           model: true,
           children: [
             { text: 'Course' , icon: 'mdi-account-circle', link:'/course'},
-            { text: 'Permission',icon: 'mdi-account-circle',},
-            { text: 'Print' },
-            { text: 'Undo changes' },
-            { text: 'Other contacts' },
+            { text: 'Our Team',icon: 'mdi-account-circle',link:'/team'},
+            { text: 'Testimonial',icon: 'mdi-account-circle',link:'/testimonial-home'},
+            { text: 'Event',icon: 'mdi-account-circle',link:'/event-home'},
+            { text: 'Master Data',icon: 'mdi-account-circle',link:'/master-home'},
           ],
         },
-        { icon: 'mdi-settings', text: 'Settings' },
-        { icon: 'mdi-message', text: 'Send feedback' },
-        { icon: 'mdi-help-circle', text: 'Help' },
-        { icon: 'mdi-cellphone-link', text: 'App downloads' },
-        { icon: 'mdi-keyboard', text: 'Go to the old version' },
       ],
 
     }),

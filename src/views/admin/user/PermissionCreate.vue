@@ -141,7 +141,6 @@ export default {
       const index = this.tableData.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.tableData.splice(index, 1);
-      axios
         this.removePermission(item)
         .then((response) => {
              this.addNotification({

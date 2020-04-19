@@ -104,9 +104,7 @@ const routes = [
                     middleware.auth
                   ]
                 }
-              },
-
-           
+              },      
             ]
       },
 
@@ -133,6 +131,39 @@ const routes = [
           },
 
           {
+            path: 'create-course',
+            name: 'create-course',
+            component: () => import('../views/admin/course/CreateCourse.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+
+          {
+            path: 'edit-course',
+            name: 'edit-course',
+            component: () => import('../views/admin/course/EditCourse.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+
+          {
+            path: 'show-course',
+            name: 'show-course',
+            component: () => import('../views/admin/course/ShowCourse.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+
+          {
             path: 'category-home',
             name: 'category-home',
             component: () => import('../views/admin/course/Category.vue'),
@@ -142,11 +173,147 @@ const routes = [
               ]
             }
           },
+          {
+            path: 'course-content',
+            name: 'course-content',
+            component: () => import('../views/admin/course/CourseContent.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
 
-      
+          {
+            path: 'create-content',
+            name: 'create-content',
+            component: () => import('../views/admin/course/CreateContent.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
 
+          {
+            path: 'show-content',
+            name: 'show-content',
+            component: () => import('../views/admin/course/ShowContent.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
 
+          
+          {
+            path: 'edit-content',
+            name: 'edit-content',
+            component: () => import('../views/admin/course/EditContent.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
 
+      {
+        path: 'master-home',
+        name: 'master-home',
+        component: () => import('../views/admin/master/MasterData.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        }
+      },
+      {
+        path: 'testimonial-home',
+        name: 'testimonial-home',
+        component: () => import('../views/admin/testimonial/Testimonial.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        }
+      },
+      {
+        path: 'event-home',
+        component: () => import('../views/admin/event/Event.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+        children:[
+          {
+            path: '',
+            name: 'event-home',
+            component: () => import('../views/admin/event/EventHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'create-event',
+            name: 'create-event',
+            component: () => import('../views/admin/event/CreateEvent.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
+
+      {
+        path: '/team',
+        component: () => import('../views/admin/team/Team.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+
+        children:[
+          {
+            path: '',
+            name: 'team-home',
+            component: () => import('../views/admin/team/TeamHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+
+          {
+            path: 'create-team',
+            name: 'create-team',
+            component: () => import('../views/admin/team/CreateTeam.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+
+          {
+            path: 'edit-team',
+            name: 'edit-team',
+            component: () => import('../views/admin/team/EditTeam.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
         ]
       },
 
