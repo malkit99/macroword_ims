@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar color="primary" dark>
-      <v-card-title>Create Event</v-card-title>
+      <v-card-title>Edit Event</v-card-title>
       <v-spacer></v-spacer>
       <v-btn color="primary" class="mb-2" :to="{name:'event-home'}">Back</v-btn>
     </v-toolbar>
@@ -115,7 +115,7 @@
               <v-row>
                 <v-col cols="12" sm="6" md="6">
                   <v-list-item-avatar tile size="200" color="grey">
-                    <v-img :src="imageURL"></v-img>
+                    <v-img :src="imageURL ? imageURL : event.event_image"></v-img>
                   </v-list-item-avatar>
                   <ValidationProvider
                     v-slot="{ errors , validate }"
@@ -149,6 +149,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapActions } from "vuex";
 import { required, max, min, alpha_spaces , image } from "vee-validate/dist/rules";
 import {
@@ -204,11 +205,25 @@ export default {
     };
   },
 
+    created() {
+        this.initialize();
+    },
+
   methods: {
     ...mapActions({
         addNotification: "application/addNotification",
-        saveEvent:'event/saveEvent',
+        getEventById:'event/getEventById',
     }),
+
+    initialize() {
+        this.getEventById(this.$route.params.id)
+        .then(response => {
+            this.event = response.data.data;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    },
     onpickFile() {
       this.$refs.fileInput.click();
     },
@@ -244,9 +259,9 @@ export default {
         data.append('start_date' , this.event.start_date),
         data.append('last_date' , this.event.last_date),
         data.append('event_image' , this.event_image),
-        this.saveEvent(data)
+        axios.post(`api/event/${this.$route.params.id}`, data)
           .then(response => {
-            this.$router.push({ name: "event-home" });
+            this.$router.push({ name: "event-home" }); 
             this.addNotification({
               show: true,
               text: "Event Created Successfully"
@@ -259,7 +274,6 @@ export default {
       });
       this.allerror = "";
     },
-
     clear() {
         (this.event.title = ""),
         (this.event.description = ""),

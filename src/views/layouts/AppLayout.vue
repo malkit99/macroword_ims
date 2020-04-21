@@ -104,9 +104,6 @@
       <v-btn icon>
         <v-icon>mdi-bell</v-icon>
       </v-btn>
-
-
-
   <div class="text-center">
     <v-menu offset-y :nudge-width="200" >
       <template v-slot:activator="{ on }">
@@ -179,7 +176,7 @@ import {mapGetters , mapActions } from 'vuex'
           children: [
             { text: 'Course' , icon: 'mdi-account-circle', link:'/course'},
             { text: 'Our Team',icon: 'mdi-account-circle',link:'/team'},
-            { text: 'Testimonial',icon: 'mdi-account-circle',link:'/testimonial-home'},
+            { text: 'Testimonial',icon: 'mdi-account-circle',link:'/testimonial'},
             { text: 'Event',icon: 'mdi-account-circle',link:'/event-home'},
             { text: 'Master Data',icon: 'mdi-account-circle',link:'/master-home'},
           ],
@@ -221,8 +218,6 @@ import {mapGetters , mapActions } from 'vuex'
       })
     },
   },
-
-
   }
 </script>
 

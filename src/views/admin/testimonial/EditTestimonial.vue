@@ -1,13 +1,13 @@
 <template>
   <v-card>
     <v-toolbar color="primary" dark>
-      <v-card-title>Create Event</v-card-title>
+      <v-card-title>Edit Testimonial</v-card-title>
       <v-spacer></v-spacer>
-      <v-btn color="primary" class="mb-2" :to="{name:'event-home'}">Back</v-btn>
+      <v-btn color="primary" class="mb-2" :to="{name:'testimonial-home'}">Back</v-btn>
     </v-toolbar>
 
     <v-card-text>
-      <ValidationObserver ref="eventForm" v-slot="{ validate, reset }">
+      <ValidationObserver ref="testimonialForm" v-slot="{ validate, reset }">
         <v-form @submit.prevent="save">
           <v-card-text>
             <v-alert type="primary" dense outlined v-if="allerror">
@@ -18,10 +18,10 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6" md="6">
-                  <ValidationProvider v-slot="{ errors }" name="Event Title" rules="required|alpha_spaces|min:10|max:100" >
+                  <ValidationProvider v-slot="{ errors }" name="Name" rules="required|alpha_spaces|min:3|max:30" >
                     <v-text-field
-                      v-model="event.title"
-                      label="Event Title"
+                      v-model="testi.student"
+                      label="Name"
                       :error-messages="errors"
                     ></v-text-field>
                   </ValidationProvider>
@@ -29,80 +29,26 @@
                 <v-col cols="12" sm="6" md="6">
                   <ValidationProvider
                     v-slot="{ errors }"
-                    name="Loction"
-                    rules="required|alpha_spaces|min:3|max:25"
+                    name="Designation"
+                    rules="required|alpha_spaces|min:3|max:30"
                   >
                     <v-text-field
-                      v-model="event.loction"
-                      name="loction"
-                      label="Loction"
+                      v-model="testi.designation"
+                      name="designation"
+                      label="Designation"
                       :error-messages="errors"
                     ></v-text-field>
                   </ValidationProvider>
                 </v-col>
-                <v-col cols="12" sm="6" md="6">
-                  <v-menu
-                    ref="menu1"
-                    v-model="menu1"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="290px"
-                  >
-                    <template v-slot:activator="{ on }">
-                     <ValidationProvider v-slot="{ errors }" name="Start Date" rules="required" >
-                      <v-text-field
-                        v-model="event.start_date"
-                        label="Start Date"
-                        hint="YYYY/MM/DD"
-                        persistent-hint
-                        readonly
-                        prepend-icon="event"
-                        :error-messages="errors"
-                        v-on="on"
-                      ></v-text-field>
-                     </ValidationProvider>
-                    </template>
-                    <v-date-picker v-model="event.start_date" no-title @input="menu1 = false" ></v-date-picker>
-                  </v-menu>
-                </v-col>
-                <v-col cols="12" sm="6" md="6">
-                                      <v-menu
-                    ref="menu2"
-                    v-model="menu2"
-                    :close-on-content-click="false"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="290px"
-                  >
-                    <template v-slot:activator="{ on }">
-                     <ValidationProvider v-slot="{ errors }" name="Last Date" rules="required" >
-                      <v-text-field
-                        v-model="event.last_date"
-                        label="Start Date"
-                        hint="YYYY/MM/DD"
-                        persistent-hint
-                        readonly
-                        prepend-icon="event"
-                        :error-messages="errors"
-                        v-on="on"
-                      ></v-text-field>
-                     </ValidationProvider>
-                    </template>
-                    <v-date-picker v-model="event.last_date" no-title @input="menu2 = false" ></v-date-picker>
-                  </v-menu>
-                </v-col>
               </v-row>
               <v-row>
                 <v-col cols="12" sm="6" md="12">
-                  <ValidationProvider v-slot="{ errors }" name="Description" rules="required|min:10|max:300">
+                  <ValidationProvider v-slot="{ errors }" name="Description" rules="required|min:30|max:200" >
                     <v-textarea
                       label="Description"
                       auto-grow
                       outlined
-                      v-model="event.description"
+                      v-model="testi.description"
                       rows="2"
                       :error-messages="errors"
                       row-height="15"
@@ -115,12 +61,12 @@
               <v-row>
                 <v-col cols="12" sm="6" md="6">
                   <v-list-item-avatar tile size="200" color="grey">
-                    <v-img :src="imageURL"></v-img>
+                    <v-img :src="imageURL ? imageURL : testi.testi_image"></v-img>
                   </v-list-item-avatar>
                   <ValidationProvider
                     v-slot="{ errors , validate }"
                     name="Team Member Image"
-                   rules="required|image"
+                    rules="required|image"
                   >
                 <p id="error" class="red--text">{{ errors[0] }}</p>
                     <input
@@ -135,9 +81,9 @@
                   </ValidationProvider>
                 </v-col>
                 <v-col cols="12" sm="6" md="6">
-                    <v-btn color="error" class="mr-2"  @click="onpickFile">Image Upload</v-btn>
+                <v-btn color="error" class="mr-2"  @click="onpickFile">Image Upload</v-btn>
                   <v-btn color="error" class="mr-2" @click="clear">Reset</v-btn>
-                  <v-btn color="success" @click="save">Save</v-btn>
+                  <v-btn color="success" type="submit">Save</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -149,6 +95,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { mapActions } from "vuex";
 import { required, max, min, alpha_spaces , image } from "vee-validate/dist/rules";
 import {
@@ -182,7 +129,7 @@ extend("max", {
   message: "{_field_} may not be greater than {length} characters"
 });
 export default {
-  name: "CreateTeam",
+  name: "EditTestimonial",
   components: {
     ValidationProvider,
     ValidationObserver
@@ -190,25 +137,36 @@ export default {
   data: () => {
     return {
       imageURL: "",
-      menu1: false,
-      menu2: false,
-      event: {
-        title: "",
+      testi: {
+        student: "",
         description: "",
-        loction: "",
-        start_date: "",
-        last_date: "",
+        designation: "",
       },
-      event_image: "",
+      testi_image: "",
       allerror: ""
     };
   },
 
+    created() {
+        this.initialize();
+    },
+
   methods: {
     ...mapActions({
         addNotification: "application/addNotification",
-        saveEvent:'event/saveEvent',
+        saveTestimonial:'testimonial/saveTestimonial',
+        getByIdTestimonial:'testimonial/getByIdTestimonial',
     }),
+
+        initialize() {
+            this.getByIdTestimonial(this.$route.params.id)
+            .then(response => {
+                this.testi = response.data.data;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        },
     onpickFile() {
       this.$refs.fileInput.click();
     },
@@ -216,7 +174,7 @@ export default {
     onFilePicked(event) {
       const files = event.target.files;
       this.readFile(files);
-      this.event_image = files[0];
+      this.testi_image = files[0];
     },
 
     readFile(files) {
@@ -232,24 +190,22 @@ export default {
     },
 
     save() {
-      this.$refs.eventForm.validate().then(success => {
+      this.$refs.testimonialForm.validate().then(success => {
         if (!success) {
           return;
         }
         this.allerror = "";
         let data = new FormData();
-        data.append('title' , this.event.title),
-        data.append('loction' , this.event.loction),
-        data.append('description' , this.event.description),
-        data.append('start_date' , this.event.start_date),
-        data.append('last_date' , this.event.last_date),
-        data.append('event_image' , this.event_image),
-        this.saveEvent(data)
+        data.append('student' , this.testi.student);
+        data.append('designation' , this.testi.designation);
+        data.append('description' , this.testi.description);
+        data.append('testi_image' , this.testi_image);  
+        axios.post(`api/testimonial/update/${this.$route.params.id}`, data)
           .then(response => {
-            this.$router.push({ name: "event-home" });
+            this.$router.push({ name: "testimonial-home" });
             this.addNotification({
               show: true,
-              text: "Event Created Successfully"
+              text: "Testimonial Created Successfully"
             });
           })
           .catch(error => {
@@ -261,13 +217,11 @@ export default {
     },
 
     clear() {
-        (this.event.title = ""),
-        (this.event.description = ""),
-        (this.event.loction = ""),
-        (this.event.start_date = ""),
-        (this.event.last_date = ""),
+        (this.testi.student = ""),
+        (this.testi.description = ""),
+        (this.testi.designation = ""),
         (this.event_image = ""),
-        this.$refs.eventForm.reset();
+        this.$refs.testimonialForm.reset();
     }
   }
 };

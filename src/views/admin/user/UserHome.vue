@@ -236,20 +236,22 @@ extend("max", {
 
     deleteItem(item) {
       const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") && this.desserts.splice(index, 1);
-      this.userDelete(item)
-        .then(response => {
-           this.addNotification({
-                  show: true,
-                  text : 'User Delete Succssfully'
-              })
-        })
-        .catch(error => {
-           this.addNotification({
-                  show: true,
-                  text : 'User not Deleted'
-              })
-        });
+      if(confirm("Are you sure you want to delete this item?") && this.desserts.splice(index, 1)){
+
+        this.userDelete(item)
+          .then(response => {
+             this.addNotification({
+                    show: true,
+                    text : 'User Delete Succssfully'
+                })
+          })
+          .catch(error => {
+             this.addNotification({
+                    show: true,
+                    text : 'User not Deleted'
+                })
+          });
+      }
     },
 
       close () {

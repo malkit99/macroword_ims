@@ -2,26 +2,55 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AuthLayout from '../views/layouts/AuthLayout.vue'
 import AppLayout from '../views/layouts/AppLayout.vue'
+import FrontLayout from '../views/layouts/FrontLayout.vue'
 import middleware from '../middleware/index'
 
 Vue.use(VueRouter)
 
 const routes = [
-// dashboard route start here
 
+  
   {
-    path: '/',
-    name: 'home',
-    component: () => import('../views/admin/Home.vue'),
-  },
-
-  {
-    path: '/',
-    name: 'AppLayout',
-    component: AppLayout,
+    path: '',
+    component: FrontLayout,
+    meta:{
+      middleware:[
+        middleware.guest
+      ]
+    },
     children:[
       {
-        path: '/dashboard',
+        path: '',
+        name: 'home',
+        component: () => import('../views/front/Home.vue'),
+        meta:{
+          middleware:[
+            middleware.guest
+          ]
+        }
+      },
+      {
+        path: 'about-home',
+        name: 'about-home',
+        component: () => import('../views/front/About.vue'),
+        meta:{
+          middleware:[
+            middleware.guest
+          ]
+        }
+      },
+    ]
+  },
+// dashboard route start here
+  {
+    path: '/dashboard',
+    component: AppLayout,
+    meta:{
+      middleware:[middleware.auth],
+    },
+    children:[
+      {
+        path: '',
         name: 'dashboard',
         component: () => import('../views/admin/Dashboard.vue'),
         meta:{
@@ -231,14 +260,45 @@ const routes = [
         }
       },
       {
-        path: 'testimonial-home',
-        name: 'testimonial-home',
+        path: '/testimonial',
         component: () => import('../views/admin/testimonial/Testimonial.vue'),
         meta:{
           middleware:[
             middleware.auth
           ]
-        }
+        },
+        children:[
+          {
+            path: '',
+            name: 'testimonial-home',
+            component: () => import('../views/admin/testimonial/TestimonialHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'create-testimonial',
+            name: 'create-testimonial',
+            component: () => import('../views/admin/testimonial/CreateTestimonial.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'edit-testimonial',
+            name: 'edit-testimonial',
+            component: () => import('../views/admin/testimonial/EditTestimonial.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
       },
       {
         path: 'event-home',
@@ -263,6 +323,17 @@ const routes = [
             path: 'create-event',
             name: 'create-event',
             component: () => import('../views/admin/event/CreateEvent.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+
+          {
+            path: 'edit-event',
+            name: 'edit-event',
+            component: () => import('../views/admin/event/EditEvent.vue'),
             meta:{
               middleware:[
                 middleware.auth
@@ -315,22 +386,23 @@ const routes = [
             }
           },
         ]
-      },
-
-    
-
+      },  
     ]
   },
 
   // dashboard route end here
   //  auth route here
-  {
-    path: '/',
-    name: 'auth',
-    component:AuthLayout,
+          {
+            path: '/login',
+            component:AuthLayout,
+            meta:{
+              middleware:[
+                middleware.guest
+              ]
+            },
             children:[
               {
-                path: 'login',
+                path: '',
                 name: 'login',
                 component: () => import('../views/auth/Login.vue'),
                 meta:{
@@ -339,8 +411,6 @@ const routes = [
                   ]
                 }
               },
-                      
-
                 {
                   path: 'forgot-password',
                   name: 'forgot-password',
@@ -363,8 +433,9 @@ const routes = [
                   }
                 },
             ]
-  },
+          },
 // auth route end here
+
 ]
 
 const router = new VueRouter({
