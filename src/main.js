@@ -5,6 +5,12 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import can from './helpers/can';
+import VueAwesomeSwiper from 'vue-awesome-swiper';
+import VueAnimateNumber from 'vue-animate-number'
+
+
+// import style
+import 'swiper/css/swiper.css'
 
 import axios from 'axios'
 
@@ -15,6 +21,8 @@ axios.defaults.baseURL = 'http://localhost:8000/'
 Vue.config.productionTip = false
 Vue.prototype.$can = can;
 Vue.use( CKEditor );
+Vue.use(VueAnimateNumber);
+Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
 
 new Vue({
   router,

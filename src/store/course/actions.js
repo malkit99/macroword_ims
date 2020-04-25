@@ -47,7 +47,7 @@ export default{
 
     getCourseBySlug(ctx , slug ){
         return new Promise((resolve , reject ) => {
-            axios.get(`api/course/${slug}`)
+            axios.get(`api/course/course-slug/${slug}`)
             .then((response) => {
                 if(response.status == 201 ){
                     const course = response.data.data

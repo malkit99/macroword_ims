@@ -39,8 +39,40 @@ const routes = [
           ]
         }
       },
+      {
+        path: 'programme',
+        name: 'programme',
+        component: () => import('../views/front/Programme.vue'),
+        meta:{
+          middleware:[
+            middleware.guest
+          ]
+        }
+      },
+      {
+        path: 'course-detail',
+        name: 'course-detail',
+        component: () => import('../views/front/CourseDetail.vue'),
+        meta:{
+          middleware:[
+            middleware.guest
+          ]
+        }
+      },
+      {
+        path: 'contact-us',
+        name: 'contact-us',
+        component: () => import('../views/front/ContactUs.vue'),
+        meta:{
+          middleware:[
+            middleware.guest
+          ]
+        }
+      },
     ]
   },
+// front page route link end here 
+
 // dashboard route start here
   {
     path: '/dashboard',
