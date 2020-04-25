@@ -418,7 +418,53 @@ const routes = [
             }
           },
         ]
-      },  
+      },
+      // clender router path start here 
+      {
+        path: '/clender',
+        component: () => import('../views/admin/clender/Clender.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+        children:[
+          {
+            path: '',
+            name: 'clender-home',
+            component: () => import('../views/admin/clender/ClenderHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
+      // clender router path end here  
+      // opportunity router path start here
+      {
+        path: '/opportunity',
+        component: () => import('../views/admin/opportunity/Job.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+        children:[
+          {
+            path: '',
+            name: 'job-home',
+            component: () => import('../views/admin/opportunity/JobHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
+      // opportunity router path end here  
     ]
   },
 

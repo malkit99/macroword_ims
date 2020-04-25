@@ -47,7 +47,7 @@
     <v-app-bar  color="blue darken-3" dark>
     <v-toolbar-title class="d-flex , d-sm-none" >Macroword Online Learning </v-toolbar-title>    
     <template>     
-  <v-toolbar-items class="hidden-xs-only" v-for="item in items" :key="item.title">
+  <v-toolbar-items class="hidden-xs-only" v-for="(item , i) in items" :key="i">
    <v-menu open-on-hover  offset-y  :close-on-content-click="false" :nudge-width="200">
       <template v-slot:activator="{ on }">
         <v-btn text v-on="on" :to="item.link">
@@ -66,7 +66,7 @@
                 <v-icon color="success">{{ child.icon }}</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title class="red--green">{{ child.text }}</v-list-item-title>
+                <v-list-item-title class="red--text">{{ child.text }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
           </v-list-group>
@@ -84,7 +84,6 @@ export default {
     name:"NavHeader",
       data: () => ({
     drawer: null,
-
     items: [
       { icon: "mdi-home", text: "Home", link: "/" },
       { icon: "mdi-account-circle", text: "About", link: "about-home" },

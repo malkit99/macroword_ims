@@ -2,7 +2,6 @@
 <v-app id="inspire"> 
 <top-system-bar></top-system-bar>
 <nav-header></nav-header>
-<top-slider></top-slider>
     <v-content>  
           <router-view></router-view>
     </v-content>

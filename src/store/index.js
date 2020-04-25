@@ -12,6 +12,7 @@ import course from './course/index'
 import team from './team/index'
 import event from './event/index'
 import testimonial from './testimonial/index'
+import opportunity from './opportunity/index'
 
 
 
@@ -38,5 +39,6 @@ export default new Vuex.Store({
     team,
     event,
     testimonial,
+    opportunity,
   }
 })

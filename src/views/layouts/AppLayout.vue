@@ -162,10 +162,10 @@ import {mapGetters , mapActions } from 'vuex'
         {
           icon: 'mdi-chevron-up',
           'icon-alt': 'mdi-chevron-down',
-          text: 'Labels',
+          text: 'Clender',
           model: true,
           children: [
-            { icon: 'mdi-plus', text: 'Create label' },
+            { icon: 'mdi-plus', text: 'Clender', link:'/clender'},
           ],
         },
         {
@@ -179,6 +179,7 @@ import {mapGetters , mapActions } from 'vuex'
             { text: 'Testimonial',icon: 'mdi-account-circle',link:'/testimonial'},
             { text: 'Event',icon: 'mdi-account-circle',link:'/event-home'},
             { text: 'Master Data',icon: 'mdi-account-circle',link:'/master-home'},
+            { text: 'Job Opportunities',icon: 'mdi-account-circle',link:'/opportunity'},
           ],
         },
       ],
