@@ -1,5 +1,5 @@
 <template>
-<v-parallax src="./../../../public/img/student.jpg" height="700">
+<v-parallax src="../../../../public/img/student.jpg" height="700">
  <v-overlay value="true" absolute color="cyan darken-4" opacity="0.50">
 <v-container>   
         <p class=" font-weight-bold display-2 text-center" >Why Choose Macroword Academy</p>    

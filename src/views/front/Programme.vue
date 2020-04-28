@@ -49,8 +49,8 @@
 <script>
 import AllCourse from '../../components/front/programme/AllCourse'
 import PopularCourse from '../../components/front/programme/PopularCourse'
-import OurAuthorization from '../../components/front/OurAuthorization';
-import WhyChooseUs from '../../components/front/WhyChooseUs';
+import OurAuthorization from '../../components/front/home/OurAuthorization';
+import WhyChooseUs from '../../components/front/home/WhyChooseUs';
 export default {
   name:"Programme",
   components:{ 

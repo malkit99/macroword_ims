@@ -29,11 +29,11 @@
 </template>
 
 <script>
-import Duration from '../../../components/Duration';
-import BatchSize from '../../../components/BatchSize';
-import CourseFee from '../../../components/CourseFee';
-import CourseCode from '../../../components/CourseCode';
-import Telephone from '../../../components/Telephone';
+import Duration from '../../../components/admin/Duration';
+import BatchSize from '../../../components/admin/BatchSize';
+import CourseFee from '../../../components/admin/CourseFee';
+import CourseCode from '../../../components/admin/CourseCode';
+import Telephone from '../../../components/admin/Telephone';
 export default {
     name:"MasterData",
     components:{ Duration , BatchSize , CourseFee , CourseCode , Telephone}

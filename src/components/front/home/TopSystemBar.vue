@@ -2,7 +2,7 @@
     <v-system-bar dark color="red" height="75">
     <v-avatar class="hidden-sm-and-down" >
       <img
-        src="./../../../public/img/rg_logo.png"
+        src="../../../../public/img/rg_logo.png"
         alt="John"
       >
     </v-avatar>

@@ -98,7 +98,7 @@ import CourseContentDetail from '../../components/front/programme/CourseContentD
 import CourseFeature from '../../components/front/programme/CourseFeature'
 import CourseEnquery from '../../components/front/programme/CourseEnquery'
 import ExploreCourse from '../../components/front/programme/ExploreCourse'
-import TestimonialComponent from '../../components/front/TestimonialComponent';
+import TestimonialComponent from '../../components/front/home/TestimonialComponent';
 import JobOpportunities from '../../components/front/programme/JobOpportunities';
 export default {
     name:"CourseDetail",

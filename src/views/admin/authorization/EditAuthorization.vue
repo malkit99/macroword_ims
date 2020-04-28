@@ -1,13 +1,13 @@
 <template>
   <v-card>
     <v-toolbar color="primary" dark>
-      <v-card-title>Create Job Opportunity</v-card-title>
+      <v-card-title>Edit Authorization</v-card-title>
       <v-spacer></v-spacer>
-      <v-btn color="primary" class="mb-2" :to="{name:'job-home'}">Back</v-btn>
+      <v-btn color="primary" class="mb-2" :to="{name:'authorization-home'}">Back</v-btn>
     </v-toolbar>
 
     <v-card-text>
-      <ValidationObserver ref="jobForm" v-slot="{ validate, reset }">
+      <ValidationObserver ref="authorizationForm" v-slot="{ validate, reset }">
         <v-form @submit.prevent="save">
           <v-card-text>
             <v-alert type="primary" dense outlined v-if="allerror">
@@ -17,11 +17,20 @@
             </v-alert>
             <v-container>
               <v-row>
-                <v-col cols="12" sm="6" md="8" offset-md="2">
-                  <ValidationProvider v-slot="{ errors }" name="Company Name" rules="required|alpha_spaces|min:3|max:20" >
+                <v-col cols="12" sm="6" md="6">
+                  <ValidationProvider v-slot="{ errors }" name="Authorization Name" rules="required|alpha_spaces|min:3|max:20" >
                     <v-text-field
-                      v-model="job.company_name"
-                      label="Company Name"
+                      v-model="auth.authorization_name"
+                      label="Authorization Name"
+                      :error-messages="errors"
+                    ></v-text-field>
+                  </ValidationProvider>
+                </v-col>
+                 <v-col cols="12" sm="6" md="6">
+                  <ValidationProvider v-slot="{ errors }" name="Authorization Type" rules="required|alpha_spaces|min:3|max:20" >
+                    <v-text-field
+                      v-model="auth.auth_type"
+                      label="Authorization Type"
                       :error-messages="errors"
                     ></v-text-field>
                   </ValidationProvider>
@@ -32,11 +41,11 @@
               <v-row>
                 <v-col cols="12" sm="6" md="6">
                   <v-list-item-avatar tile size="200" color="grey">
-                    <v-img :src="imageURL"></v-img>
+                    <v-img :src="imageURL ? imageURL : auth.auth_image"></v-img>
                   </v-list-item-avatar>
                   <ValidationProvider
                     v-slot="{ errors , validate }"
-                    name="Job Opportunity Image"
+                    name="Authorization Image"
                     rules="required|image"
                   >
                 <p id="error" class="red--text">{{ errors[0] }}</p>
@@ -66,6 +75,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { mapActions } from "vuex";
 import { required, max, min, alpha_spaces , image } from "vee-validate/dist/rules";
 import {
@@ -99,7 +109,7 @@ extend("max", {
   message: "{_field_} may not be greater than {length} characters"
 });
 export default {
-  name: "CreateJob",
+  name: "EditAuthorization",
   components: {
     ValidationProvider,
     ValidationObserver
@@ -107,19 +117,34 @@ export default {
   data: () => {
     return {
       imageURL: "",
-      job: {
-        company_name: ""
+      auth: {
+        authorization_name: "",
+        auth_type: ""
       },
-      job_image: "",
+      auth_image: "",
       allerror: ""
     };
+  },
+
+created() {
+    this.initialize();
   },
 
   methods: {
     ...mapActions({
         addNotification: "application/addNotification",
-        saveJob:'jobs/saveJob',
+        getByIdAuthorization:'authorization/getByIdAuthorization',
     }),
+
+    initialize() {
+      this.getByIdAuthorization(this.$route.params.id)
+        .then(response => {
+          this.auth = response.data.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
     onpickFile() {
       this.$refs.fileInput.click();
     },
@@ -127,7 +152,7 @@ export default {
     onFilePicked(event) {
       const files = event.target.files;
       this.readFile(files);
-      this.job_image = files[0];
+      this.auth_image = files[0];
     },
 
     readFile(files) {
@@ -143,20 +168,21 @@ export default {
     },
 
     save() {
-      this.$refs.jobForm.validate().then(success => {
+      this.$refs.authorizationForm.validate().then(success => {
         if (!success) {
           return;
         }
         this.allerror = "";
         let data = new FormData();
-        data.append('company_name' , this.job.company_name),
-        data.append('job_image' , this.job_image),
-        this.saveJob(data)
+        data.append('authorization_name' , this.auth.authorization_name),
+        data.append('auth_type' , this.auth.auth_type),
+        data.append('auth_image' , this.auth_image),
+        axios.post(`api/authorization/update/${this.$route.params.id}` , data)
           .then(response => {
-            this.$router.push({ name: "job-home" });
+            this.$router.push({ name: "authorization-home" });
             this.addNotification({
               show: true,
-              text: "Job Opportunity Created Successfully"
+              text: "Authorization Updated Successfully"
             });
           })
           .catch(error => {
@@ -168,9 +194,10 @@ export default {
     },
 
     clear() {
-        (this.job.student = ""),
-        (this.job_image = ""),
-        this.$refs.jobForm.reset();
+        (this.auth.authorization_name = ""),
+        (this.auth.auth_type = ""),
+        (this.auth_image = ""),
+        this.$refs.authorizationForm.reset();
     }
   }
 };

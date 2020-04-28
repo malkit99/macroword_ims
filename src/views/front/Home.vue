@@ -97,14 +97,14 @@
 </div>
 </template>
 <script>
-import TopSlider from '../../components/front/TopSlider';
-import AcademicWork from '../../components/front/AcademicWork';
-import CourseSlider from '../../components/front/CourseSlider';
-import TestimonialComponent from '../../components/front/TestimonialComponent';
-import EventComponent from '../../components/front/EventComponent';
-import LatestEvent from '../../components/front/LatestEvent';
-import WhyChooseUs from '../../components/front/WhyChooseUs';
-import OurAuthorization from '../../components/front/OurAuthorization';
+import TopSlider from '../../components/front/home/TopSlider';
+import AcademicWork from '../../components/front/home/AcademicWork';
+import CourseSlider from '../../components/front/home/CourseSlider';
+import TestimonialComponent from '../../components/front/home/TestimonialComponent';
+import EventComponent from '../../components/front/home/EventComponent';
+import LatestEvent from '../../components/front/home/LatestEvent';
+import WhyChooseUs from '../../components/front/home/WhyChooseUs';
+import OurAuthorization from '../../components/front/home/OurAuthorization';
 export default {
   name:"Home",
   components:{

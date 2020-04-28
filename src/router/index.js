@@ -282,7 +282,7 @@ const routes = [
       },
 
       {
-        path: 'master-home',
+        path: '/master-home',
         name: 'master-home',
         component: () => import('../views/admin/master/MasterData.vue'),
         meta:{
@@ -332,8 +332,9 @@ const routes = [
           },
         ]
       },
+
       {
-        path: 'event-home',
+        path: '/event-home',
         component: () => import('../views/admin/event/Event.vue'),
         meta:{
           middleware:[
@@ -462,9 +463,73 @@ const routes = [
               ]
             }
           },
+          {
+            path: 'create-job',
+            name: 'create-job',
+            component: () => import('../views/admin/opportunity/CreateJob.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'edit-job',
+            name: 'edit-job',
+            component: () => import('../views/admin/opportunity/EditJob.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
         ]
       },
-      // opportunity router path end here  
+      // opportunity router path end here 
+      // authorization router path start here
+      {
+        path: '/authorization',
+        component: () => import('../views/admin/authorization/Authorization.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+        children:[
+          {
+            path: '',
+            name: 'authorization-home',
+            component: () => import('../views/admin/authorization/AuthorizationHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'create-authorization',
+            name: 'create-authorization',
+            component: () => import('../views/admin/authorization/CreateAuthorization.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'edit-authorization',
+            name: 'edit-authorization',
+            component: () => import('../views/admin/authorization/EditAuthorization.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
+      
+      // authorization router path end here 
     ]
   },
 
