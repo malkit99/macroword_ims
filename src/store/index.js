@@ -14,6 +14,7 @@ import event from './event/index'
 import testimonial from './testimonial/index'
 import authorization from './authorization/index'
 import jobs from './jobs/index'
+import contact from './front/contact/index'
 
 
 
@@ -42,5 +43,6 @@ export default new Vuex.Store({
     testimonial,
     authorization,
     jobs,
+    contact,
   }
 })

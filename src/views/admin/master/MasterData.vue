@@ -23,6 +23,10 @@
         <v-col cols="12" sm="12" md="4">
           <telephone template="XXXXXXX"></telephone>
         </v-col>
+
+         <v-col cols="12" sm="12" md="4">
+          <vue-tel-input v-model="mobile" v-bind="bindProps"></vue-tel-input>
+        </v-col>
       </v-row>
 
   </v-container>
@@ -36,6 +40,22 @@ import CourseCode from '../../../components/admin/CourseCode';
 import Telephone from '../../../components/admin/Telephone';
 export default {
     name:"MasterData",
-    components:{ Duration , BatchSize , CourseFee , CourseCode , Telephone}
+    components:{ Duration , BatchSize , CourseFee , CourseCode , Telephone },
+    data() {
+      return {
+          mobile:"",
+          bindProps:{
+            mode: "international",
+            defaultCountry: "IN",
+            placeholder: "Enter a mobile number",
+            onlyCountries: ["IN"],
+            autocomplete: "on",
+            maxLen: 15,
+            required:true,
+            enabledFlags: true,
+          },
+      }
+
+    },
 }
 </script>

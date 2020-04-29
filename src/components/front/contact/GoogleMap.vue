@@ -11,38 +11,7 @@ export default {
     name:"GoogleMap",
     data() {
         return {
-            map:null,
-            MyCoordinates:{
-                lat:0,
-                lng:0,
-            },
-        }
-    },
-
-    created() {
-        this.$getLocation({})
-        .then(coordinates => {
-            this.MyCoordinates = coordinates
-        })
-        .catch(error => alert(error));
-    },
-
-    mounted() {
-        this.$refs.mapRef.$mapPromise.then(map => this.map);
-    },
-
-    computed: {
-        MapCoordinates(){
-            if(!this.map){
-            return {
-                lat: 0 ,
-                lng:0 ,
-            };
-        }
-            return {
-                lat: this.map.getCenter().lat().toFixed(4),
-                lng: this.map.getCenter().lng().toFixed(4)
-            }
+         
         }
     },
 }

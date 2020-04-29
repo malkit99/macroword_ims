@@ -7,8 +7,7 @@ import CKEditor from '@ckeditor/ckeditor5-vue';
 import can from './helpers/can';
 import VueAwesomeSwiper from 'vue-awesome-swiper';
 import VueAnimateNumber from 'vue-animate-number'
-import VueGeolocation from 'vue-browser-geolocation';
-import * as VueGoogleMaps from 'vue2-google-maps';
+import VueTelInput from 'vue-tel-input'
 
 
 // import style
@@ -25,12 +24,8 @@ Vue.prototype.$can = can;
 Vue.use( CKEditor );
 Vue.use(VueAnimateNumber);
 Vue.use(VueAwesomeSwiper, /* { default options with global component } */)
-Vue.use(VueGeolocation);
-Vue.use(VueGoogleMaps,{
-  load: {
-    key: 'AIzaSyA3GAjb-b7Lsom70XXb5HBVVoKpfTxGrbI'
-  },
-});
+Vue.use(VueTelInput)
+
 
 
 new Vue({

@@ -9,15 +9,15 @@
   </v-parallax>
   <v-container fluid>
       <v-row>
-      <v-col cols="12" sm="12" md="6">
+      <v-col cols="12" sm="12" xs12 md="6">
          <contact-component></contact-component>
       </v-col>
-    <v-col cols="12" sm="12" md="6">
+    <v-col cols="12" sm="12" xs12 md="6">
          <addvirtiesment-component></addvirtiesment-component>
     </v-col>
       </v-row>
     <v-row>
-      <v-col cols="12" sm="6"  md="12">
+      <v-col cols="12" sm="12"  md="12">
            <v-toolbar color="red" dark>
                 <v-toolbar-title>
                     Get Direction To Macroword

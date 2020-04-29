@@ -4,7 +4,6 @@
     :items="desserts"
     item-key="index"
     sort-by="course_fee"
-    items-per-page="10"
     class="elevation-5"
   >
     <template v-slot:top>
