@@ -106,4 +106,34 @@ export default{
           })
         })
       },
+
+      updateStatus(ctx , item){
+        return new Promise((resolve , reject) => {
+            axios.post(`api/course/status/${item.id}`, item)
+            .then((response) => {
+                if(response.status == 201){
+                    ctx.commit('UPDATE_COURSE_STATUS' , item)
+                }
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            })
+        })
+    },
+
+    popularStatus(ctx , item){
+        return new Promise((resolve , reject) => {
+            axios.post(`api/course/popular/${item.id}`, item)
+            .then((response) => {
+                if(response.status == 201){
+                    ctx.commit('UPDATE_POPULAR_STATUS' , item)
+                }
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            })
+        })
+    },
 };

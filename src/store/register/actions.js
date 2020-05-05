@@ -8,17 +8,14 @@ export default{
             .then((response) => {
                 
                 if(response.status == 200){
-                    const users = response.data.data
-                 
+                    const users = response.data.data         
                     ctx.commit('SET_USERS' , users );
-                  
-                    resolve(response);
-                }
-               
+                   
+                }       
                 resolve(response);
             })
             .catch((error) => {
-                reject(response);
+                reject(error);
             })
         })
     },
@@ -38,18 +35,17 @@ export default{
         });
     },
 
-    saveUser(ctx , user ){
+    saveUser(ctx , data ){
         return new Promise((resolve , reject ) => {
-            axios.post('api/register', user)
+            axios.post('api/register', data)
             .then((response) => {
-                const user = response.data.data
-                ctx.commit('ADD_User' , user);
+                ctx.commit('ADD_User' , data);
                 resolve(response);      
             })
             .catch((error) => {
-               reject(response);
-            })
-        })
+               reject(error);
+            });
+        });
     },
     editUser(ctx , item){
         return new Promise((resolve , reject) =>{

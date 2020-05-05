@@ -3,7 +3,7 @@ export default {
     
     loginUser(ctx , payload ){
         return new Promise( (resolve , reject ) => {
-            axios.get('airlock/csrf-cookie')
+            axios.get('sanctum/csrf-cookie')
                 .then(response =>{
                 axios.post('login' , payload )
                 .then((response) => { 
@@ -59,7 +59,7 @@ export default {
 
     forgotPassword(ctx ,payload){
         return new Promise((resolve , reject)=>{
-            axios.get('airlock/csrf-cookie') 
+            axios.get('sanctum/csrf-cookie') 
             .then((response)=>{
                 axios.post('api/forgot-password' , payload)
                 .then((response) => {
@@ -76,7 +76,7 @@ export default {
 
     resetNewPassword(ctx , payload ){
         return new Promise((resolve , reject)=>{
-            axios.get('airlock/csrf-cookie')
+            axios.get('sanctum/csrf-cookie')
             .then((response) => {
                 axios.post('api/reset-password' , payload)
                 .then((response) => {

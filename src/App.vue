@@ -22,12 +22,29 @@
                   </v-btn>
       </v-snackbar>
 
-
- 
-
-
-  </v-app>
-  
+  <div class="text-center">
+    <v-dialog
+      v-for="(loading , index) in getLoading"
+      :key="index"
+      v-model="loading.show"
+      hide-overlay
+      persistent
+      width="300"
+    >
+    <v-card color="success" dark>
+        <v-card-text>
+          <p class="text-center" v-if="loading.text">{{ loading.text}}</p>
+          <v-progress-linear
+            indeterminate
+            color="white"
+            class="mb-0"
+          >
+          </v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
+  </v-app> 
 </template>
 
 <script>
@@ -39,17 +56,16 @@ export default {
    this.checkUserState()
    .then(()=>{
      if(this.loggedIn){
-       this.me().then(() => {
-      
+       this.me().then(() => {   
        })
      }
    }) 
   },
 
   computed: {
-
     ...mapGetters({
       getNotifications:'application/getNotifications',
+      getLoading:'loading/getLoading',
       loggedIn:'user/loggedIn'
     }),
    
@@ -63,11 +79,12 @@ export default {
       me:'user/me'
 
     }),
+
     updateNotification(show , index){
         if(!show){
           this.removeNotification(index);
         }
-    }
+    },
   },
 };
 </script>

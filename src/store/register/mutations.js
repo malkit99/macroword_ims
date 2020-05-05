@@ -3,8 +3,8 @@ export default{
         state.users = users
     },
 
-    ADD_User(state , users){
-        state.users = state.users.concat(users);
+    ADD_User(state , data){
+        state.users = state.users.concat(data);
     },
 
     UPDATE_USER(state , item){

@@ -59,13 +59,14 @@ export default{
     },
 
     updateStatus(ctx , item){
-        return new Promise((reslove , reject) => {
+        return new Promise((resolve , reject) => {
             axios.post(`api/testimonial/status/${item.id}`, item)
             .then((response) => {
-                if(response.status == 200){
+                if(response.status == 201){
+                    const item = response.data.data;
                     ctx.commit('UPDATE_TESTIMONIAL_STATUS' , item)
                 }
-                reslove(response);
+                resolve(response);
             })
             .catch((error) => {
                 reject(error);

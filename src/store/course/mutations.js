@@ -19,5 +19,19 @@ export default{
 
     DELETE_COURSE(state , item){
         state.courses = state.courses.filter(course => course.id !== item.id)
-    }
+    },
+
+    UPDATE_COURSE_STATUS(state , item){
+        const index = state.courses.findIndex(course => course.id === item.id);
+        if(index !== -1){
+            state.courses.splice(index , 1 , item);
+        }
+    },
+
+    UPDATE_POPULAR_STATUS(state , item){
+        const index = state.courses.findIndex(course => course.id === item.id);
+        if(index !== -1){
+            state.courses.splice(index , 1 , item);
+        }
+    },
 };

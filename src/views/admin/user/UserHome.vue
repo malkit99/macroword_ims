@@ -1,118 +1,90 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="desserts"
-    sort-by="calories"
-    class="elevation-1"
-  >
+  <v-data-table :headers="headers" :items="desserts" sort-by="calories" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>My CRUD</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
+        <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
+        <template>
+          <v-btn color="primary" dark class="mx-2" :to="{name:'create-user'}">Create User</v-btn>
+          <v-btn
+            color="primary"
+            dark
+            class="mx-2"
+            :to="{name:'create-permission'}"
+          >Manage Permission</v-btn>
+          <v-btn color="primary" dark class="mx-2" :to="{name:'create-user-role'}">Manage Role</v-btn>
+        </template>
         <v-dialog v-model="dialog" persistent max-width="600px">
-          <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mx-2" v-on="on">Create User</v-btn>
-            <v-btn color="primary" dark class="mx-2" :to="{name:'create-permission'}">Manage Permission</v-btn>
-            <v-btn color="primary" dark class="mx-2" :to="{name:'create-user-role'}">Manage Role</v-btn>
-          </template>
-      <ValidationObserver ref="userForm">    
-        <v-form @submit.prevent="save">
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
-              
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6" md="12">
-                    <ValidationProvider v-slot="{ errors }" name="Name" rules="required|max:30|min:3">
-                    <v-text-field v-model="editedItem.name" label="Name" :error-messages="errors" >
-                    <v-icon slot="prepend" color="primary" >mdi-account-circle</v-icon>
-                    </v-text-field>
-                    </ValidationProvider>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="12">
-                    <ValidationProvider v-slot="{ errors }" name="Email" rules="required|email">
-                    <v-text-field v-model="editedItem.email" label="Email" :error-messages="errors">
-                    <v-icon slot="prepend" color="primary">mdi-email</v-icon>
-                    </v-text-field>
-                    </ValidationProvider>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="12">
-                    <ValidationProvider v-slot="{ errors }" name="Mobile" rules="required">
-                    <v-text-field v-model="editedItem.mobile" label="Mobile" :error-messages="errors" >
-                      <v-icon slot="prepend" color="primary">mdi-cellphone-android</v-icon>
-                    </v-text-field>
-                    </ValidationProvider>
-                  </v-col>
-               
-                  <v-col cols="12" sm="6" md="12">
-                     <ValidationProvider v-slot="{ errors }" name="Roles" rules="required">
-                  
-                        <v-select
-                          v-model="editedItem.role"
-                          :items="allRoles"
-                          label="Roles"
-                          item-text="name"
-                          item-value="id"
-                          return-object
-                          chips
-                        ></v-select>
-                 
-                </ValidationProvider>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
+                <v-card
+            class="mx-auto"
+            max-width="600"
+            outlined
+            >
+            <v-list-item>
+            <v-list-item-content>
+            <v-list-item-title class="headline mb-1">{{ editedItem.name}}</v-list-item-title>
+            <v-list-item-subtitle>Created At  : {{ editedItem.created_at}} </v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-avatar tile size="80" color="grey">
+                      <img :src="editedItem.profile_image"/>
+            </v-list-item-avatar>
+            </v-list-item>
+            <v-list-item>
+             <v-chip color="pink" dark > Email -: {{ editedItem.email}}</v-chip>
+             <v-spacer></v-spacer>
+             <v-chip color="pink" dark > Mobile -: {{ editedItem.mobile}}</v-chip>
+            </v-list-item>
+            <v-list-item>
+                <v-chip color="orange" dark   outlined label >Role : {{ editedItem.role.name}}</v-chip>
+            </v-list-item>
+            <v-list-item>
+                <div v-for="(permission , index) in editedItem.role.permissions" :key="index">
+                   <v-chip color="success" class="ml-2" dark outlined label>{{ permission.name}}</v-chip>
+                </div>
+            </v-list-item>
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1"  @click="close" >Cancel</v-btn>
-              <v-btn color="blue darken-1" type="submit">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="close">Close</v-btn>
             </v-card-actions>
-          </v-card>
-        </v-form>
-      </ValidationObserver>    
+            </v-card>
         </v-dialog>
       </v-toolbar>
     </template>
 
     <template v-slot:item.image="{ item }">
-       <v-avatar color="indigo" size="36">
+      <v-avatar color="indigo" size="64">
         <img :src="item.profile_image" :alt="item.name" />
       </v-avatar>
     </template>
     <template v-slot:item.name="{ item }">
-         <v-btn :to="{ name: 'show-user' , params:{id:item.id}}" text color="success">{{item.name}}</v-btn> 
+      <v-btn :to="{ name: 'show-user' , params:{id:item.id}}" text color="success">{{item.name}}</v-btn>
     </template>
-    <template v-slot:item.email="{ item }">
-          {{ item.email }}
+    <template v-slot:item.email="{ item }">{{ item.email }}</template>
+
+    <template v-slot:item.roles="{ item }">{{ item.role.name}}</template>
+
+    <template v-slot:item.actions="{ item }">
+      <tr>
+    <td style="border:none;">
+
+      <v-btn icon>
+      <v-icon small color="warning" @click="showItem(item)" class="mr-2">mdi-eye</v-icon>
+      </v-btn>
+
+      <v-btn icon :to="{ name: 'edit-user' , params:{id:item.id}}" >
+      <v-icon color="primary" small class="mr-2">mdi-pencil</v-icon>
+      </v-btn>
+        
+      <v-btn icon>
+      <v-icon color="error" small @click="deleteItem(item)">mdi-delete</v-icon>
+      </v-btn>    
+        </td>
+      </tr>  
     </template>
 
-    <template v-slot:item.roles="{ item }">
-     {{ item.role.name}}
-    </template>
-    <template v-slot:item.actions="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
     <template v-slot:no-data>
       <v-btn color="primary" @click="initialize">Reset</v-btn>
     </template>
@@ -121,7 +93,7 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import axios from 'axios';
+import axios from "axios";
 import { required, email, max, min } from "vee-validate/dist/rules";
 import {
   extend,
@@ -150,153 +122,140 @@ extend("max", {
   message: "{_field_} may not be greater than {length} characters"
 });
 
-  export default {
-    name:"UserHome",
+export default {
+  name: "UserHome",
   components: {
     ValidationProvider,
     ValidationObserver
   },
-    data: () => ({
-      dialog: false,
-      valid:true,
-      headers: [
-        {
-          text: 'S.No.',
-          align: 'start',
-          sortable: false,
-          value: 'sno',
-        },
-        { text: 'Image', value: 'image' },
-        { text: 'Name', value: 'name' },
-        { text: 'Email', value: 'email' },
-        { text: 'Roles', value: 'roles' },
-        { text: 'Actions', value: 'actions', sortable: false },
-      ],
-      desserts:[],
-      allRoles:[],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        email:'',
-        mobile:'',
-        roles:{},
+  data: () => ({
+    dialog: false,
+    valid: true,
+    headers: [
+      {
+        text: "S.No.",
+        align: "start",
+        sortable: false,
+        value: "sno"
       },
-      defaultItem: {
-        name: '',
-        email:'',
-        mobile:'',
-        roles:{},
-      },
+      { text: "Image", value: "image" },
+      { text: "Name", value: "name" },
+      { text: "Email", value: "email" },
+      { text: "Roles", value: "roles" },
+      { text: "Actions", value: "actions", sortable: false }
+    ],
+    desserts: [],
+    allRoles: [],
+    editedIndex: -1,
+    editedItem: {
+      name: "",
+      email: "",
+      mobile: "",
+      role: "",
+      profile_image:"",
+    },
+  
+  }),
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    }
+  },
+
+  created() {
+    this.initialize();
+  },
+
+  methods: {
+    ...mapActions({
+      saveUser: "register/saveUser",
+      addNotification: "application/addNotification",
+      userDelete: "register/userDelete",
+      getUsers: "register/getUsers",
+      addLoading: "loading/addLoading",
+      removeloading: "loading/removeloading",
     }),
 
-    computed: {
-      formTitle () {
-        return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-      },
-      
+    initialize() {
+      this.addLoading({ show: true , text: "Please Wait User Data Upadated ..." });
+      this.getUsers("api/register")
+      .then(response => {
+        this.removeloading({ show: false });
+        this.desserts = response.data.data;
+      })
     },
 
-
-    watch: {
-      dialog (val) {
-        val || this.close()
-      },
+    showItem(item) {
+      this.editedIndex = this.desserts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
     },
-
-    created () {
-      this.initialize()
-    },
-
-    methods: {
-      ...mapActions({
-        saveUser:'register/saveUser',
-        addNotification:'application/addNotification',
-        userDelete: "register/userDelete",
-        editUser: "register/editUser",
-      }),
-
-
-      initialize () {
-        axios.get('api/register')
-        .then((response) => {
-          this.desserts = response.data.data
-        });
-
-        axios.get('api/roles')
-        .then((response) => {
-          this.allRoles = response.data.data
-        })
-      },
-
-      editItem (item) {
-        this.editedIndex = this.desserts.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-      },
 
     deleteItem(item) {
       const index = this.desserts.indexOf(item);
-      if(confirm("Are you sure you want to delete this item?") && this.desserts.splice(index, 1)){
-
+      if (
+        confirm("Are you sure you want to delete this item?") &&
+        this.desserts.splice(index, 1)
+      ) {
         this.userDelete(item)
           .then(response => {
-             this.addNotification({
-                    show: true,
-                    text : 'User Delete Succssfully'
-                })
+            this.addNotification({
+              show: true,
+              text: "User Delete Succssfully"
+            });
           })
           .catch(error => {
-             this.addNotification({
-                    show: true,
-                    text : 'User not Deleted'
-                })
+            this.addNotification({
+              show: true,
+              text: "User not Deleted"
+            });
           });
       }
     },
 
-      close () {
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
-
-      save () {
-        if (this.editedIndex > -1) {
-          Object.assign(this.desserts[this.editedIndex], this.editedItem)
-          this.editUser(this.editedItem)
-          .then((response) => {
-
-          })
-          .catch((error) => {
-
-          })
-
-        } else {
-          this.$refs.userForm.validate().then((success) =>{
-            if(!success){
-              return this.dialog = true;
-            }
-            this.saveUser(this.item)
-            .then((response) => {
-              this.addNotification({
-                show: true,
-                text : 'User Registration Successfully Submited'
-              });
-              this.$refs.userForm.reset();
-            })
-            .catch((error) => {
-              this.addNotification({
-                show: true,
-                text : 'User Registration not Submited'
-              })
-            })
-          })
-          
-        }
-        this.close()
-      },
+    close() {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300);
     },
+
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        this.editUser(this.editedItem)
+          .then(response => {})
+          .catch(error => {});
+      } else {
+        this.$refs.userForm.validate().then(success => {
+          if (!success) {
+            return;
+          }
+          this.saveUser(this.item)
+            .then(response => {
+              this.addNotification({
+                show: true,
+                text: "User Registration Successfully Submited"
+              });
+            })
+            .catch(error => {
+              this.addNotification({
+                show: true,
+                text: "User Registration not Submited"
+              });
+            });
+        });
+      }
+      this.close();
+    }
   }
+};
 </script>

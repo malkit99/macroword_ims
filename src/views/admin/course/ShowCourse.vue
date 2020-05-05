@@ -1,7 +1,9 @@
 <template>
-  <v-card class="mx-auto">
+  <v-card class="mx-auto" v-if="course">
     <v-toolbar color="primary" dark>
       <v-card-title>{{course.category}}</v-card-title>
+      <v-spacer></v-spacer>
+      <v-btn color="white" class="black--text" :to="{name:'course-home'}" dark >Back</v-btn>
     </v-toolbar>
     <v-img :src="course.course_image" height="200px"></v-img>
 
@@ -24,6 +26,8 @@
             <th class="text-center , font-weight-black">Batch Size</th>
             <th class="text-center , font-weight-black">Course Fee</th>
             <th class="text-center , font-weight-black">Certificate</th>
+            <th class="text-center , font-weight-black">Status</th>
+            <th class="text-center , font-weight-black">Popular</th>
             <th class="text-center , font-weight-black">Certified Instructor</th>
             <th class="text-center , font-weight-black">Practical Training</th>
           </tr>
@@ -34,20 +38,26 @@
               <v-chip color="pink" dark>{{course.duration}}</v-chip>
             </td>
             <td class="text-center">
-              <v-chip color="pink" dark>{{course.batch}}Seats</v-chip>
+              <v-chip color="pink" dark>{{course.batch}} Seats</v-chip>
             </td>
             <td class="text-center">
               <v-chip color="pink" dark>{{course.fee}} INR</v-chip>
             </td>
             <td class="text-center">
-              <v-chip color="pink" dark>{{course.certificate}}</v-chip>
+              <v-chip color="pink" dark>{{course.certificate == 1 ? "Yes" : "No"}}</v-chip>
+            </td>
+             <td class="text-center">
+              <v-chip color="pink" dark>{{course.status == 1 ? "Publish" : "Close"}}</v-chip>
+            </td>
+             <td class="text-center">
+              <v-chip color="pink" dark>{{course.popular_course == 1 ? "Popular" : "Normal"}}</v-chip>
             </td>
             <td class="text-center">
-              <v-chip color="pink" dark>{{course.instructor}}</v-chip>
+              <v-chip color="pink" dark>{{course.instructor == 1 ? "Yes" : "No"}}</v-chip>
             </td>
 
             <td class="text-center">
-              <v-chip color="pink" dark>{{course.training}}</v-chip>
+              <v-chip color="pink" dark>{{course.training == 1 ? "Yes" : "No"}}</v-chip>
             </td>
           </tr>
         </tbody>

@@ -2,8 +2,12 @@
     <ValidationObserver ref="userForm" v-slot="{ validate, reset }">
         <v-form @submit.prevent="save">
   <v-card class=" mx-auto">
-      <v-toolbar color="primary">      
-            <v-card-title color="primary" class="display-1 white--text" >Edit Course Content</v-card-title>
+      <v-toolbar color="primary" dark >      
+                <v-card-title>
+                    Edit Course Content
+                </v-card-title>
+                <v-spacer></v-spacer>
+                <v-btn color="primary"  class="mb-2" :to="{name:'course-content'}">Back</v-btn>
       </v-toolbar>
     <v-card-text>
         <v-container>

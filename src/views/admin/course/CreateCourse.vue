@@ -7,7 +7,7 @@
                     Create Course Detail
                 </v-card-title>
                 <v-spacer></v-spacer>
-                <v-btn color="primary"  class="mb-2" :to="{name:'team-home'}">Back</v-btn>
+                <v-btn color="primary"  class="mb-2" :to="{name:'course-home'}">Back</v-btn>
             </v-toolbar>
         <v-card-text>
           <v-container>

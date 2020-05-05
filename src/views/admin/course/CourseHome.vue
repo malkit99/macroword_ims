@@ -22,6 +22,10 @@
       </v-toolbar>
     </template>
 
+<template v-slot:item.sno="{ item }">
+    {{ 1 }}
+</template>
+
 <template v-slot:item.image="{ item }">
      <v-avatar color="indigo" size="64">
         <img :src="item.course_image" :alt="item.name" />
@@ -37,7 +41,10 @@
      
 </template>
 <template v-slot:item.status="{ item }">
-  <v-switch value  color="red" :input-value="item.status == 1 ? true : false "></v-switch>
+  <v-switch value  color="red" v-model="item.status" @change="changeStatus(item)" :input-value="item.status == 1 ? true : false "></v-switch>
+</template>
+<template v-slot:item.popular_course="{ item }">
+  <v-switch value  color="success" v-model="item.popular_course" @change="changePopular(item)" :input-value="item.popular_course == 1 ? true : false "></v-switch>
 </template>
     <template v-slot:item.actions="{ item }">
       
@@ -72,6 +79,7 @@ import axios from 'axios';
         { text: ' Course Name', value: 'course_name' , align: 'center' },
         { text: 'Course Category', value: 'category' , align: 'center'},
         { text: 'Status', value: 'status' , align: 'center' },
+        { text: 'Popular', value: 'popular_course' , align: 'center' },
         { text: 'Start', value: 'create', align: 'center' },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
@@ -88,17 +96,23 @@ import axios from 'axios';
     methods: {
       ...mapActions({
         addNotification:'application/addNotification',
+        addLoading: "loading/addLoading",
+        removeloading: "loading/removeloading",
         getCourse:'course/getCourse',
         removeCourse:'course/removeCourse',
+        updateStatus:'course/updateStatus',
+        popularStatus:'course/popularStatus',
       }),
       
       initialize () {
+         this.addLoading({ show: true , text: "Please Wait Data Uploading ..." });
         this.getCourse()
         .then((response) => {
+          this.removeloading({ show: false });
           this.courses = response.data.data
         })
         .catch((error) => {
-          console.log(error);
+          this.removeloading({ show: false });
         });
       },
 
@@ -119,6 +133,40 @@ import axios from 'axios';
               });
         })
       },
+
+    changeStatus(item){
+      const data = {id: item.id , status: item.status}
+      this.updateStatus(data)
+      .then((response) => {
+        this.addNotification({
+          show: true,
+          text : 'Course Status Updated Successfully'
+        });
+      })
+      .catch((error) => {
+          this.addNotification({
+            show: true,
+            text : 'Course Status Not Updated'
+        });
+      })
+    },
+
+    changePopular(item){
+      const data = {id: item.id , popular_course: item.popular_course}
+      this.popularStatus(data)
+      .then((response) => {
+        this.addNotification({
+          show: true,
+          text : 'Course Status Popular Updated Successfully'
+        });
+      })
+      .catch((error) => {
+          this.addNotification({
+            show: true,
+            text : 'Course Status Popular Not Updated'
+        });
+      })
+    },
 
     
     },

@@ -3,6 +3,8 @@
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="8" md="4">
+              <ValidationObserver ref="loginForm">
+              <v-form  @submit.prevent="userLogin">
           <v-card class="elevation-6">
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>Login form</v-toolbar-title>
@@ -14,31 +16,35 @@
                   <li>{{error[0]}}</li>
                 </ul>
               </v-alert>
-              <v-form ref="loginForm" v-model="valid">
+                <ValidationProvider v-slot="{ errors }" name="Email" rules="required"> 
                 <v-text-field
                   label="Login"
                   name="email"
-                  :rules="[...requiredRules , ...emailRules]"
+                  :error-messages="errors"
                   v-model="user.email"
                   type="email"
-                />
-
+                /> 
+                </ValidationProvider>
+              <ValidationProvider v-slot="{ errors }" name="Password" rules="required"> 
                 <v-text-field
                   id="password"
                   label="Password"
                   v-model="user.password"
-                  :rules="[...requiredRules , ...passwordRules]"
+                  :error-messages="errors"
                   name="password"
                   type="password"
                 />
-              </v-form>
+              </ValidationProvider>  
             </v-card-text>
             <v-card-actions>
               <v-btn text color="primary" :to="{name: 'forgot-password'}">Forgot Password</v-btn>
               <v-spacer />
-              <v-btn color="primary" @click="userLogin">Login</v-btn>
+              <v-btn color="primary" @click="clear">Reset</v-btn>
+              <v-btn color="primary" type="submit">Login</v-btn>
             </v-card-actions>
           </v-card>
+        </v-form>
+      </ValidationObserver>
         </v-col>
       </v-row>
     </v-container>
@@ -47,19 +53,48 @@
 
 <script>
 import { mapActions } from "vuex";
-import PasswordValidationMixin from "../../mixins/PasswordValidationMixin";
+import { required, email, max, min  } from "vee-validate/dist/rules";
+import axios from 'axios'
+import {
+  extend,
+  ValidationObserver,
+  ValidationProvider,
+  setInteractionMode
+} from "vee-validate";
+
+setInteractionMode("eager");
+
+extend("required", {
+  ...required,
+  message: "{_field_} can not be empty"
+});
+extend("min", {
+  ...min,
+  message: "{_field_} may not be less than {length} characters"
+});
+extend("email", {
+  ...email,
+  message: "{_field_}  must be valid"
+});
+
+extend("max", {
+  ...max,
+  message: "{_field_} may not be greater than {length} characters"
+});
 
 export default {
   name: "login",
-  mixins: [PasswordValidationMixin],
+  
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
   data() {
     return {
-      valid: true,
       user: {
         email: "",
         password: ""
       },
-
       allerror: ""
     };
   },
@@ -67,29 +102,46 @@ export default {
   methods: {
     ...mapActions({
       loginUser: "user/loginUser",
-      addNotification: "application/addNotification"
+      addNotification: "application/addNotification",
+      addLoading: "loading/addLoading",
+      removeloading: "loading/removeloading",
     }),
-    userLogin() {
-      if (this.$refs.loginForm.validate()) {
+
+    userLogin(){
+      this.$refs.loginForm.validate().then((success) => {
+        if(!success){
+          return ;
+        }
+        this.addLoading({ show: true , text: "Please Wait your requset proceding..." });
         this.loginUser(this.user)
-          .then(response => {
-            this.$router.push({ name: "dashboard" });
+        .then((response) => {
+          this.removeloading({ show: false });
+          this.$router.push({ name: "dashboard" });
             this.addNotification({
               show: true,
               text: "You Are Login Successfully"
             });
-          })
-          .catch(error => {
-            console.log(error);
-            this.addNotification({
-              show: true,
-              text: "Login Failed Something Wrong"
-            });
-
+        })
+        .catch((error) => {
+          if(error.response.status == 422){
+            this.removeloading({ show: false });
             this.allerror = error.response.data.errors;
-          });
-      }
+          }
+            this.addNotification({
+            show: true,
+            text: "Login Failed Something Wrong"
+            });
+        })
+      });
+      this.allerror = "";
+    },
+
+    clear(){
+        this.user.email = "",
+        this.user.password = "",
+        this.$refs.loginForm.reset();
     }
+
   }
 };
 </script>

@@ -530,6 +530,232 @@ const routes = [
       },
       
       // authorization router path end here 
+
+      // Service router path start here
+      {
+        path: '/service',
+        component: () => import('../views/admin/service/Service.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+        children:[
+          {
+            path: '',
+            name: 'service-home',
+            component: () => import('../views/admin/service/ServiceHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'create-service',
+            name: 'create-service',
+            component: () => import('../views/admin/service/CreateService.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'edit-service',
+            name: 'edit-service',
+            component: () => import('../views/admin/service/EditService.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
+      
+      // Service router path end here 
+
+      // Discount router path start here
+            {
+              path: '/discount',
+              component: () => import('../views/admin/discount/Discount.vue'),
+              meta:{
+                middleware:[
+                  middleware.auth
+                ]
+              },
+              children:[
+                {
+                  path: '',
+                  name: 'discount-home',
+                  component: () => import('../views/admin/discount/DiscountHome.vue'),
+                  meta:{
+                    middleware:[
+                      middleware.auth
+                    ]
+                  }
+                },
+                {
+                  path: 'create-discount',
+                  name: 'create-discount',
+                  component: () => import('../views/admin/discount/CreateDiscount.vue'),
+                  meta:{
+                    middleware:[
+                      middleware.auth
+                    ]
+                  }
+                },
+                {
+                  path: 'edit-discount',
+                  name: 'edit-discount',
+                  component: () => import('../views/admin/discount/EditDiscount.vue'),
+                  meta:{
+                    middleware:[
+                      middleware.auth
+                    ]
+                  }
+                },
+              ]
+            },
+            
+     // Discount router path end here 
+
+      // Slider router path start here
+      {
+        path: '/slider',
+        component: () => import('../views/admin/slider/Slider.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+        children:[
+          {
+            path: '',
+            name: 'slider-home',
+            component: () => import('../views/admin/slider/SliderHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'create-slider',
+            name: 'create-slider',
+            component: () => import('../views/admin/slider/CreateSlider.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'edit-slider',
+            name: 'edit-slider',
+            component: () => import('../views/admin/slider/EditSlider.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
+      
+      // Slider router path end here 
+
+
+      // Website router path start here
+      {
+        path: '/website',
+        component: () => import('../views/admin/website/Website.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+        children:[
+          {
+            path: '',
+            name: 'website-home',
+            component: () => import('../views/admin/website/WebsiteHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'create-website',
+            name: 'create-website',
+            component: () => import('../views/admin/website/CreateWebsite.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'edit-website',
+            name: 'edit-website',
+            component: () => import('../views/admin/website/EditWebsite.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
+      
+      // Website router path end here 
+
+      // country router path start here
+      {
+        path: '/country',
+        component: () => import('../views/admin/country/Country.vue'),
+        meta:{
+          middleware:[
+            middleware.auth
+          ]
+        },
+        children:[
+          {
+            path: '',
+            name: 'country-home',
+            component: () => import('../views/admin/country/CountryHome.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'state-home',
+            name: 'state-home',
+            component: () => import('../views/admin/country/State.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+          {
+            path: 'city-home',
+            name: 'city-home',
+            component: () => import('../views/admin/country/City.vue'),
+            meta:{
+              middleware:[
+                middleware.auth
+              ]
+            }
+          },
+        ]
+      },
+      
+      // country router path end here 
     ]
   },
 

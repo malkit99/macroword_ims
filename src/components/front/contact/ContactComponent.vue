@@ -44,7 +44,7 @@
                         <ValidationProvider v-slot="{ errors }"  name="Mobile Number" rules="required|max:15">
                            <vue-tel-input v-model="contact.mobile"  v-bind="bindProps" @onInput="onInput"></vue-tel-input>
                         <span v-if="errors" class="red--text caption ml-2 "> {{ errors[0] }}</span>
-                            </ValidationProvider>
+                        </ValidationProvider>
                         </v-col>
                         <v-col cols="12" offset-md="2" md="8"  sm="12">
                         <ValidationProvider v-slot="{ errors }"  name="Messgae" rules="required">

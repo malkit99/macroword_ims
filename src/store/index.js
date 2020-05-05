@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './user/index'
-import application from './aplication/index'
+import application from './application/index'
+import loading from './loading/index'
 import permission from './permission/index'
 import role from './role/index'
 import register from './register/index'
@@ -14,6 +15,11 @@ import event from './event/index'
 import testimonial from './testimonial/index'
 import authorization from './authorization/index'
 import jobs from './jobs/index'
+import website from './website/index'
+import slider from './slider/index'
+import discount from './discount/index'
+import service from './service/index'
+import country from './country/index'
 import contact from './front/contact/index'
 
 
@@ -44,5 +50,11 @@ export default new Vuex.Store({
     authorization,
     jobs,
     contact,
+    loading,
+    website,
+    slider,
+    discount,
+    service,
+    country,
   }
 })
