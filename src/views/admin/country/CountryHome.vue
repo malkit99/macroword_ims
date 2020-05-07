@@ -16,9 +16,9 @@
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog" max-width="500px" persistent >
           <template v-slot:activator="{ on }">
-            <v-btn color="primary" dark class="mb-2 ml-2" :to="{name: 'city-home'}">Create City</v-btn>
-            <v-btn color="primary" dark class="mb-2 ml-2" :to="{name: 'state-home'}">Create State</v-btn>
-            <v-btn color="primary" dark class="mb-2 ml-2" v-on="on">Create Country</v-btn>
+            <v-btn color="primary" dark class="mb-2 ml-2" :to="{name: 'city-home'}">City</v-btn>
+            <v-btn color="primary" dark class="mb-2 ml-2" :to="{name: 'state-home'}">State</v-btn>
+            <v-btn color="primary" dark class="mb-2 ml-2" v-on="on">Add Country</v-btn>
           </template>
           <ValidationObserver ref="countryForm" v-slot="{ validate, reset }">
           <v-form @submit.prevent="save">
@@ -51,6 +51,10 @@
           </ValidationObserver>
         </v-dialog>
       </v-toolbar>
+        <!-- excel component import here  -->
+            <bulk-excel-import></bulk-excel-import>
+        <!-- excel component import here  -->
+    
     </template>
     <template v-slot:item.actions="{ item }">
       <v-icon
@@ -76,7 +80,8 @@
 </template>
 <script>
 import { mapActions } from "vuex";
-import { required, max, min, alpha_spaces , image } from "vee-validate/dist/rules";
+import BulkExcelImport from '../../../components/admin/BulkExcelImport'
+import { required, max, min, alpha_spaces , image  } from "vee-validate/dist/rules";
 import {
   extend,
   ValidationObserver,
@@ -111,7 +116,8 @@ extend("max", {
       name:"CountryHome",
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    BulkExcelImport,
   },
     data: () => ({
       dialog: false,
@@ -136,6 +142,8 @@ extend("max", {
         country_name: '',
       
       },
+
+      file:"",
     }),
 
     computed: {
@@ -170,6 +178,7 @@ extend("max", {
             this.countries = response.data.data
           })
       },
+
 
       editItem (item) {
         this.editedIndex = this.countries.indexOf(item)

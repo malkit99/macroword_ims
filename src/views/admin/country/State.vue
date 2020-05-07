@@ -17,7 +17,7 @@
         <v-dialog v-model="dialog" max-width="500px" persistent >
           <template v-slot:activator="{ on }">
             <v-btn color="primary" dark class="mb-2 ml-2" :to="{name: 'country-home'}">Back</v-btn>
-            <v-btn color="primary" dark class="mb-2 ml-2" v-on="on">Create State</v-btn>
+            <v-btn color="primary" dark class="mb-2 ml-2" v-on="on">Add State</v-btn>
           </template>
           <ValidationObserver ref="countryForm" v-slot="{ validate, reset }">
           <v-form @submit.prevent="save">
@@ -68,6 +68,9 @@
           </ValidationObserver>
         </v-dialog>
       </v-toolbar>
+      <!-- state excel import component -->
+      <state-excel-import></state-excel-import>
+      <!-- state excel import here -->
     </template>
     <template v-slot:item.actions="{ item }">
       <v-icon
@@ -95,6 +98,7 @@
 import axios from 'axios';
 import { mapActions } from "vuex";
 import { required, max, min, alpha_spaces , image } from "vee-validate/dist/rules";
+import StateExcelImport from '../../../components/admin/StateExcelImport';
 import {
   extend,
   ValidationObserver,
@@ -129,7 +133,8 @@ extend("max", {
       name:"State",
   components: {
     ValidationProvider,
-    ValidationObserver
+    ValidationObserver,
+    StateExcelImport,
   },
     data: () => ({
       dialog: false,
