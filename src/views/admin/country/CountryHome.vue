@@ -179,7 +179,6 @@ extend("max", {
           })
       },
 
-
       editItem (item) {
         this.editedIndex = this.countries.indexOf(item)
         this.editedItem = Object.assign({}, item)

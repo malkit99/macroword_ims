@@ -66,9 +66,6 @@
       <v-btn icon>
       <v-icon small color="warning" @click="showItem(item)" class="mr-2">mdi-eye</v-icon>
       </v-btn>
-        <v-btn icon :to="{name:'edit-service' , params:{id: item.id}}">
-      <v-icon small color="primary" class="mr-2">mdi-pencil</v-icon>
-      </v-btn>
       <v-icon small color="error" @click="deleteItem(item)" >mdi-delete</v-icon>
     </template>
     <template v-slot:no-data>
@@ -130,8 +127,7 @@ name: "WebsiteHome",
     ...mapActions({
         addNotification:'application/addNotification',
         getWebsite:'website/getWebsite',
-        deleteService:'service/deleteService',
-        updateStatus:'service/updateStatus',
+        deleteWebDeatil:'website/deleteWebDeatil',
         addLoading: "loading/addLoading",
         removeloading: "loading/removeloading",
     }),
@@ -156,7 +152,7 @@ name: "WebsiteHome",
     deleteItem(item) {
       const index = this.website.indexOf(item);
       if(confirm("Are you sure you want to delete this item?") && this.website.splice(index, 1)){
-        this.deleteService(item)
+        this.deleteWebDeatil(item)
         .then((response) => {
           this.addNotification({
             show: true,

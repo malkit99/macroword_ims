@@ -136,4 +136,14 @@ export default{
             })
         })
     },
+   
+    getCourseName(ctx){
+        return new Promise((resolve , reject) => {
+            axios.get(`api/course/all-course-name/course`)
+            .then((response) => {
+                console.log(response);
+               resolve(response);
+            })
+        })
+    },
 };
