@@ -11,8 +11,8 @@
           v-model="tab"
         >
           <v-tabs-slider color="yellow"></v-tabs-slider>
-          <v-tab v-for="item in items" :key="item">
-            {{ item }}
+          <v-tab v-for="(item , index) in items" :key="index" @click.prevent="getCourse(item.slug)">
+            {{ item.name }}
           </v-tab>
         </v-tabs>
       </template>
@@ -20,53 +20,42 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item
-        v-for="item in items"
-        :key="item"
+        v-for="(item , index) in items"
+        :key="index"
       >
         <v-container>
             <v-row 
             align="center" 
             justify="center"   
-            v-for="n in 3"
+            v-for="n in 1"
             :key="n"
             :class="n === 1 ? 'mb-6' : ''"
             >
-                <v-col cols="12" sm="2" md="4"  v-for="k in 3" :key="k">
+                <v-col cols="12" sm="2" md="4"  v-for="(course , index) in courses" :key="index">
                     <v-card
                     min-width="250"
                     >
                     <v-img
                     height="200"
-                    src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                    :src="course.course_image"
                     ></v-img>
 
-                    <v-card-title>Cafe Badilico</v-card-title>
-
-                    <v-card-text>
-                    <v-row
-                    align="center"
-                    class="mx-0"
-                    >
-                    <v-rating
-                    :value="4.5"
-                    color="amber"
-                    dense
-                    half-increments
-                    readonly
-                    size="14"
-                    ></v-rating>
-
-                    <div class="grey--text ml-4">4.5 (413)</div>
-                    </v-row>
-                    <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
-                    </v-card-text>
+                    <v-card-title>
+                      <v-chip color="pink" dark >{{ course.course_name}}</v-chip>
+                      
+                      <v-spacer></v-spacer>
+                      <v-chip color="pink" dark >{{ course.skill_level}}</v-chip>
+                    </v-card-title>
+                      <v-card-text>
+                      <p class="headline text-center text-uppercase font-weight-bold">{{ course.title}}</p>
+                      </v-card-text>
                     <v-card-actions>
                     <v-btn
                     color="deep-purple lighten-2"
                     text
-                    :to="{name:'course-detail'}"
+                    @click="courseBySlug(course.slug)"
                     >
-                    Reserve
+                    More Info...
                     </v-btn>
                     </v-card-actions>
                     </v-card>
@@ -80,14 +69,41 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
   export default {
     data () {
       return {
         tab: null,
-        items: [
-          'web', 'shopping', 'videos', 'images', 'news',
-        ],
       }
+    },
+
+    computed: {
+      ...mapGetters({
+        items:'website_detail/getCategory',
+        courses:'website_detail/getCourseByCategorySlug',
+      }),
+    },
+
+    methods: {
+      ...mapActions({
+        getcourseBySlug:'website_detail/getcourseBySlug',
+        singleCourseBySlug:'website_detail/singleCourseBySlug'
+      }),
+      getCourse(item){
+        this.getcourseBySlug(item)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      },
+      courseBySlug(course){
+        this.singleCourseBySlug(course)
+        .then((response) => {
+          this.$router.push({name: 'course-detail'});
+        })
+      },
     },
   }
 </script>

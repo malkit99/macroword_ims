@@ -21,6 +21,7 @@ import discount from './discount/index'
 import service from './service/index'
 import country from './country/index'
 import contact from './front/contact/index'
+import website_detail from './front/website_detail/index'
 
 
 
@@ -56,5 +57,6 @@ export default new Vuex.Store({
     discount,
     service,
     country,
+    website_detail,
   }
 })

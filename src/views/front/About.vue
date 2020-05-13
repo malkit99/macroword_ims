@@ -12,7 +12,7 @@
   <our-mission></our-mission>
   <!-- our mission component start here -->
   <!-- our service component start here -->
-    <service-component></service-component>
+    <academic-work></academic-work>
   <!-- our service component start here -->
   <!-- our team component start here -->
       <v-row
@@ -29,10 +29,19 @@
 </template>
 <script>
 import OurMission from '../../components/front/about/OurMission'
-import ServiceComponent from '../../components/front/about/ServiceComponent'
+import AcademicWork from '../../components/front/home/AcademicWork';
 import OurTeam from '../../components/front/about/OurTeam'
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name:"About",
-  components:{ OurMission , ServiceComponent, OurTeam },
+  components:{ OurMission ,  OurTeam , AcademicWork , },
+  created() {
+    this.getTeam();
+  },
+  methods: {
+    ...mapActions({
+      getTeam:'website_detail/getTeam',
+    }),
+  },
 }
 </script>

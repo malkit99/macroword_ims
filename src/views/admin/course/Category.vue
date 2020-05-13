@@ -204,20 +204,26 @@ extend("max", {
 
       deleteItem (item) {
         const index = this.desserts.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
-        this.deleteCategory(item)
-        .then((response) => {
-            this.addNotification({
-                show: true,
-                text : 'Category Deleted Successfully'
-                });
-        })
-        .catch((error) => {
-            this.addNotification({
-                show: true,
-                text : 'Category Not Deleted'
-                });
-        });
+        if(confirm('Are you sure you want to delete this item?')){
+          this.deleteCategory(item)
+          .then((response) => {
+              console.log(response.data.message)
+              const message = response.data.message
+              this.addNotification({
+                  show: true,
+                  text : message
+              });
+              if(response.status == 201){
+                 this.desserts.splice(index, 1)
+              }
+          })
+          .catch((error) => {
+              this.addNotification({
+                  show: true,
+                  text : 'Category Not Deleted'
+                  });
+          });
+        }
       },
 
       close () {

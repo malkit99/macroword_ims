@@ -10,7 +10,7 @@
     <v-carousel-item
       v-for="(item,i) in items"
       :key="i"
-      :src="item.src"
+      :src="item.slider_image"
     >
      <v-row
           class="fill-height"
@@ -18,7 +18,7 @@
           justify="center"
         >
           <div class="display-3 , font-weight-bold , white--text">
-              {{ item.heading }}
+              {{ item.title }}
           </div>
         </v-row>
     </v-carousel-item>
@@ -27,25 +27,23 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
   export default {
       name:"TopSlider",
     data () {
       return {
-        items: [
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-            heading:'Macroword Computer Avademy',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-            heading:'Rgcsm Computer Education',
-          },
-          {
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-            heading:'Learn From Professional',
-          },
-        ],
+        
       }
+    },
+
+    computed: {
+      ...mapGetters({
+        items:'website_detail/getSlider',
+      }),
+    },
+
+    mounted() {
+      this.$store.dispatch('website_detail/getSlider');
     },
   }
 </script>

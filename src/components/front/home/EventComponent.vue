@@ -7,23 +7,28 @@
       :key="n"
       :class="n === 1 ? 'mb-6' : ''"
     >
-      <v-col cols="12" sm="6" md="4"  v-for="k in n+2 " :key="k">
+    <v-col cols="12" sm="6" md="4"  v-for="(item , index) in items " :key="index">
   <v-card
     class="mx-auto"
   >
     <v-img
-      src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+      :src="item.event_image"
       height="200px"
     >
     </v-img>
+  
     <v-card-title>
-      Top western road trips
+      {{item.title}}
     </v-card-title>
-    <v-card-subtitle>
-      1,000 miles of wonder
+    <v-card-subtitle class="red--text">
+      {{item.start}} to {{item.last}}
     </v-card-subtitle>
+  
+  
+      <p class="headline text-center blue--text font-weight-bold ">{{item.loction}}</p>
+   
     <v-card-text>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita deserunt ad architecto velit consequatur minima natus inventore perspiciatis aliquid? Officiis qui soluta ducimus, odit repudiandae adipisci placeat fugit nemo assumenda?
+       {{item.description}}
     </v-card-text>
      
       <v-card-actions>
@@ -38,7 +43,13 @@
   </v-container>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name:"EventComponent",
+    computed: {
+      ...mapGetters({
+        items:'website_detail/getEvent',
+      }),
+    },
 }
 </script>

@@ -1,18 +1,33 @@
 <template>
 <div>
-  <v-system-bar dark color="red" height="75" app>
+  <v-system-bar dark color="red" height="75" app  v-for="(item , index ) in website" :key="index">
     <v-avatar class="hidden-sm-and-down" >
       <img
-        src="../../../../public/img/rg_logo.png"
-        alt="John"
+        :src="item.logo"
+        :alt="item.title"
       >
     </v-avatar>
-    <v-toolbar-title class="hidden-xs-only font-weight-bold white--text ml-2" >Macroword Online Learning </v-toolbar-title>    
+    <v-toolbar-title class="hidden-xs-only text-uppercase font-weight-bold white--text ml-2" >{{item.title}}</v-toolbar-title>    
     <v-spacer></v-spacer> 
         <v-icon left color="white" >mdi-email</v-icon>
-        <span class="font-weight-bold white--text">rgcsm.pb@gmail.com</span>
+        <span class="font-weight-bold white--text">{{ item.email}}</span>
         <v-icon left color="white" class="ml-2" >mdi-cellphone</v-icon>
-        <span class="font-weight-bold white--text">+91 99882-77100</span>
+        <span class="font-weight-bold white--text">{{ item.mobile}}</span>
+    <v-spacer></v-spacer>
+                            <div class="hidden-sm-and-down">       
+                            <v-btn icon class="mr-5" :href="item.facebook" target="_blank">
+                            <v-icon  large>mdi-facebook</v-icon>
+                            </v-btn>
+                             <v-btn icon class="mr-5 " :href="item.twitter" target="_blank">
+                            <v-icon  large>mdi-twitter</v-icon>
+                            </v-btn >
+                             <v-btn icon class="mr-5" :href="item.linkedin" target="_blank" >
+                            <v-icon  large>mdi-linkedin</v-icon>
+                            </v-btn> 
+                            <v-btn icon  class="mr-5" :href="item.insta" target="_blank">
+                            <v-icon large>mdi-instagram</v-icon>
+                            </v-btn>
+                            </div>
     <v-spacer></v-spacer>
     <v-icon class="hidden-xs-only" left color="white">mdi-clock</v-icon>
     <span class="hidden-xs-only">Sunday 16 March 12:30</span>
@@ -97,19 +112,26 @@
 </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name:"NavHeader",
-      data: () => ({
-    drawer: null,
-    items: [
-      { icon: "mdi-home", text: "Home", link: "/" },
-      { icon: "mdi-account-circle", text: "About", link: "about-home" },
-      { icon: "mdi-chevron-up", "icon-alt": "mdi-chevron-down", text: "Programme", model: true,
-        children: [{ icon: "mdi-plus", text: "Courses" , link: "programme"}]
-      },
-      { icon: "mdi-chevron-up", text: "Contact" , link: "contact-us"},
-      { icon: "mdi-login", text: "Login" , link: "/login"}
-    ]
-  })
+    data(){ 
+    return{
+            drawer: null,
+            items:[
+              { icon: "mdi-home", text: "Home", link: "/" },
+              { icon: "mdi-account-circle", text: "About", link: "about-home" },
+              { icon: "mdi-chevron-up", "icon-alt": "mdi-chevron-down", text: "Programme", link: "programme" },
+              { icon: "mdi-chevron-up", text: "Contact" , link: "contact-us"},
+              { icon: "mdi-login", text: "Login" , link: "/login"}
+            ],
+          }
+    },
+
+    computed: {
+      ...mapGetters({
+        website:'website_detail/getWebsiteDetails',
+      }),
+    },
 }
 </script>

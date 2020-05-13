@@ -5,14 +5,14 @@
       dark
       flat
     >
-    <v-toolbar-title>Diploma In Office Automation & Publishing Training Content</v-toolbar-title>
+    <v-toolbar-title>{{ items.title}}</v-toolbar-title>
       <template v-slot:extension>
         <v-tabs
           v-model="tab"
         >
           <v-tabs-slider color="yellow"></v-tabs-slider>
-          <v-tab v-for="item in items" :key="item">
-            {{ item }}
+          <v-tab v-for="(item , index) in items.subjects" :key="index" @click="getContent(item.slug)">
+            {{ item.subject_name }}
           </v-tab>
         </v-tabs>
       </template>
@@ -20,19 +20,30 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item
-        v-for="item in items"
-        :key="item"
+        v-for="(item , index) in items.subjects"
+        :key="index"
       >
         <v-container>
             <v-row 
             align="center" 
             justify="center"   
-            v-for="n in 3"
-            :key="n"
-            :class="n === 1 ? 'mb-6' : ''"
             >
-                <v-col cols="12" sm="2" md="4"  v-for="k in 3" :key="k">
-                    <h1>Training Programme</h1>
+        <v-col cols="12" sm="12" md="12" >
+            <v-expansion-panels>
+                <v-expansion-panel
+                  v-for="(content , index) in contents" 
+                  :key="index"
+                >
+                <v-expansion-panel-header>{{ content.topic}}</v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-card flat>
+                    <v-card-text v-html="content.description">
+
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
                 </v-col>
             </v-row>
         </v-container>   
@@ -43,14 +54,31 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
   export default {
       name:"CourseContentDetail",
+      props:['items'],
     data () {
       return {
         tab: null,
-        items: [
-          'web', 'shopping', 'videos', 'images', 'news',
-        ],
+      }
+    },
+
+      computed: {
+      ...mapGetters({
+          contents:'website_detail/getContentBySlug',
+      }),
+    },
+
+    methods: {
+      ...mapActions({
+        getContentBySlug:'website_detail/getContentBySlug'
+      }),
+      getContent(item){
+        this.getContentBySlug(item)
+        .then((response) => {
+          console.log(response);
+        })
       }
     },
   }

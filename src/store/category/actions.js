@@ -33,8 +33,10 @@ export default{
     updateCategory(ctx , editedItem){
         return new Promise ((resolve , reject)=>{
             axios.put(`api/category/${editedItem.id}`, editedItem)
-            .then((response) => { 
-                ctx.commit('UPDATE_CATEGORY' , editedItem );
+            .then((response) => {
+                if(response.status == 201){
+                    ctx.commit('UPDATE_CATEGORY' , editedItem );
+                } 
                 resolve(response);
             })
             .catch((error) => {

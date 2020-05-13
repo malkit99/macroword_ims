@@ -3,8 +3,8 @@
 <!-- extra page header start here  -->
   <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" height="200">
     <v-overlay value="true" absolute color="black darken-4">        
-                  <h1 class="text-center">Diploma In Office Automation & Publishing</h1>
-                  <h4 class="text-center">Learn From Professional</h4>
+                  <h1 class="text-center">{{ items.title}}</h1>
+                  <h4 class="text-center">{{ items.category_name}}</h4>
     </v-overlay>  
   </v-parallax>
 
@@ -21,7 +21,7 @@
                 <v-card flat>
                     <v-row>        
                             <v-col cols="12" sm="6" md="6">
-                                <course-feature></course-feature>
+                                <course-feature :course="items"></course-feature>
                             </v-col>
                             <v-col cols="12" sm="6" md="6">
                                 <course-enquery></course-enquery>
@@ -29,7 +29,7 @@
                     </v-row>    
             </v-card>
     <!-- course content start here -->
-        <course-content-detail></course-content-detail>
+        <course-content-detail :items="items"></course-content-detail>
     <!-- course content end here -->
 
     <!-- other course explore in this category -->
@@ -38,10 +38,10 @@
               dark
               flat
             >  
-            <v-toolbar-title>Explore Our Other Courses</v-toolbar-title>
+            <v-toolbar-title>Explore Our {{ items.category_name }}</v-toolbar-title>
         </v-toolbar>
         <!-- expolore other courses component start here -->
-        <explore-course></explore-course>
+        <explore-course :items="items"></explore-course>
         <!-- expolore other courses component end here -->
 
       </v-col>
@@ -100,6 +100,7 @@ import CourseEnquery from '../../components/front/programme/CourseEnquery'
 import ExploreCourse from '../../components/front/programme/ExploreCourse'
 import TestimonialComponent from '../../components/front/home/TestimonialComponent';
 import JobOpportunities from '../../components/front/programme/JobOpportunities';
+import { mapGetters, mapActions } from 'vuex'
 export default {
     name:"CourseDetail",
     components:{
@@ -111,5 +112,22 @@ export default {
         TestimonialComponent,
         JobOpportunities,
         },
+
+      computed: {
+      ...mapGetters({
+          items:'website_detail/getSingleCourseBySlug',
+      }),
+      },
+      created() {
+        this.getJobOpportunity();
+      },
+
+      methods: {
+        ...mapActions({
+          getJobOpportunity:'website_detail/getJobOpportunity',
+        }),
+      },
+    
+
 }
 </script>

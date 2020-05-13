@@ -3,7 +3,7 @@
 
   <div v-swiper:mySwiper="swiperOption">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" :key="banner" v-for="banner in banners">
+      <div class="swiper-slide" :key="index" v-for="(banner , index) in banners">
     <v-col cols="12" sm="6" md="2">
                    <v-card
                     color="white darken-4"
@@ -14,12 +14,13 @@
                     <v-img
                     class="white--text align-end"
                     height="150px"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    :src="banner.auth_image"
+                    :alt="banner.title"
                     >
-                    <v-card-title>Australian beache</v-card-title>
+                    <v-card-title>{{banner.type}}</v-card-title>
                     </v-img>
                     <v-card-text class="text--primary">
-                    <div>Whitehaven Beach</div>
+                    <div>{{banner.title}}</div>
                     </v-card-text>
                     </v-card>
           </v-col>
@@ -33,35 +34,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
   export default {
     name:"OurAuthorization",
     data () {
       return {
-        banners: [ 
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-         ],
+
         swiperOption: {
             slidesPerView: 3,
             spaceBetween: 40,
@@ -93,6 +71,12 @@
           }
         }
       }
+    },
+
+    computed: {
+      ...mapGetters({
+        banners:'website_detail/getAuthorization',
+      }),
     },
     mounted() {
       this.mySwiper.slideTo(3, 1000, false)

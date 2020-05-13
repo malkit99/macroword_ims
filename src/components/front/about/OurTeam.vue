@@ -3,40 +3,43 @@
 
   <div v-swiper:mySwiper="swiperOption">
     <div class="swiper-wrapper">
-    <div class="swiper-slide" :key="banner" v-for="banner in banners">
-    <v-col cols="12" sm="6" md="3">
+    <div class="swiper-slide" :key="index" v-for="(banner , index) in banners">
+  
                    <v-card
-                    color="white darken-4"
                     dark
-                    min-width="275"
+                    min-width="280"
                     class="mr-5"
                     >
                     <v-img
                     class="white--text align-end"
                     height="200px"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    :src="banner.team_image"
+                    :alt="banner.name"
                     >
-                    <v-card-title>Australian beache</v-card-title>
+                    <v-card-title class="red--text font-weight-bold" dark >{{ banner.name}}</v-card-title>
                     </v-img>
-                    <v-card-text class="text--primary">
-                    <div>Whitehaven Beach</div>
-                    </v-card-text>
+                    <v-card-title >
+                      {{ banner.post }}
+                    </v-card-title>
+                     
+                      <p class="text-center">{{banner.description}}</p>
+                  
                     <v-card-actions>
-                        <v-btn icon>
-                            <v-icon color="pink">mdi-facebook</v-icon>
+                        <v-btn icon :href="banner.facebook ? banner.facebook : '#'" target="_blank">
+                            <v-icon color="white" dark >mdi-facebook</v-icon>
                         </v-btn>
-                         <v-btn icon>
-                            <v-icon color="pink">mdi-instagram</v-icon>
+                         <v-btn icon :href="banner.insta ? banner.insta : '#'" target="_blank">
+                            <v-icon color="white" dark >mdi-instagram</v-icon>
                         </v-btn>
-                         <v-btn icon>
-                            <v-icon color="pink">mdi-twitter</v-icon>
+                         <v-btn icon :href="banner.twitter ? banner.twitter : '#'" target="_blank">
+                            <v-icon color="white" dark >mdi-twitter</v-icon>
                         </v-btn>
-                         <v-btn icon>
-                            <v-icon color="pink">mdi-linkedin</v-icon>
+                         <v-btn icon :href="banner.linkedin ? banner.linkedin : '#'" target="_blank">
+                            <v-icon color="white" dark >mdi-linkedin</v-icon>
                         </v-btn>
                     </v-card-actions>
                     </v-card>
-          </v-col>
+         
       </div>
     </div>
      <div class="swiper-button-prev" slot="button-prev"></div>
@@ -47,35 +50,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
   export default {
       name:"OurTeam",
     data () {
       return {
-        banners: [ 
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-            "Malkit Singh",
-         ],
+
         swiperOption: {
             slidesPerView: 4,
             spaceBetween: 40,
@@ -107,6 +87,11 @@
           }
         }
       }
+    },
+    computed: {
+      ...mapGetters({
+        banners:'website_detail/getTeam',
+      }),
     },
     mounted() {
       this.mySwiper.slideTo(3, 1000, false)

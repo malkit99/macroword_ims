@@ -62,6 +62,9 @@
         <img :src="item.logo" :alt="item.service_name" />
       </v-avatar>
     </template>
+    <template v-slot:item.status="{ item }">
+      <v-switch value  color="red" v-model="item.status" @change="changeStatus(item)" :input-value="item.status == 1 ? true : false "></v-switch>
+    </template>
     <template v-slot:item.actions="{ item }">
       <v-btn icon>
       <v-icon small color="warning" @click="showItem(item)" class="mr-2">mdi-eye</v-icon>
@@ -92,6 +95,7 @@ name: "WebsiteHome",
       { text: "Image", value: "image" , sortable: false},
       { text: "Website Title", value: "title" , sortable: false },
       { text: "Email", value: "email" , sortable: false},
+      { text: "Status", value: "status" , sortable: false},
       { text: "Actions", value: "actions", sortable: false }
     ],
     website: [],
@@ -128,6 +132,7 @@ name: "WebsiteHome",
         addNotification:'application/addNotification',
         getWebsite:'website/getWebsite',
         deleteWebDeatil:'website/deleteWebDeatil',
+        updateStatus:'website/updateStatus',
         addLoading: "loading/addLoading",
         removeloading: "loading/removeloading",
     }),
@@ -175,6 +180,23 @@ name: "WebsiteHome",
         this.editedIndex = -1;
       }, 300);
     },
+
+  changeStatus(item){
+      const data = {id: item.id , status: item.status}
+      this.updateStatus(data)
+      .then((response) => {
+        this.addNotification({
+          show: true,
+          text : 'Website Status Updated Successfully'
+        });
+      })
+      .catch((error) => {
+          this.addNotification({
+            show: true,
+            text : 'Website Status Not Updated'
+        });
+      })
+    }
 
 
   }

@@ -26,19 +26,17 @@ justify="center"
       <v-list-item-content>
         <v-list-item-title>
             <v-avatar size="96" >
-                <v-img  src="https://cdn.vuetifyjs.com/images/john.jpg"></v-img>
+                <v-img  :src="slide.testi_image"></v-img>
             </v-avatar>
         </v-list-item-title>
         <v-list-item-title class="headline">
-           Malkit Singh
+          {{slide.student}}
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
         <v-card max-width="500">
         <v-card-text>     
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo quis voluptate
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo quis voluptate
-            soluta blanditiis voluptatum possimus. Nemo labore, 
+          {{ slide.description}} 
         </v-card-text>
         </v-card>   
         </v-row>
@@ -50,19 +48,19 @@ justify="center"
      
 </template>
 <script>
+import { mapGetters } from 'vuex'
   export default {
     name:"TesimonislComponent",
     data () {
       return {
 
-        slides: [
-          'First',
-          'Second',
-          'Third',
-          'Fourth',
-          'Fifth',
-        ],
       }
+    },
+
+    computed: {
+      ...mapGetters({
+        slides:'website_detail/getTestimonial',
+      }),
     },
   }
 </script>

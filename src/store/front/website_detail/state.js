@@ -1,0 +1,15 @@
+export default{
+    websiteDetails:[],
+    sliders:[],
+    services:[],
+    testimonials:[],
+    popularCourse:[],
+    events:[],
+    authorizations:[],
+    teams:[],
+    categories:[],
+    allCourses:[],
+    singleCourse:[],
+    courseContent:[],
+    jobOpportunities:[],
+};

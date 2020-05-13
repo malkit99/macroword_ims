@@ -22,28 +22,36 @@
                   </v-btn>
       </v-snackbar>
 
-  <div class="text-center">
-    <v-dialog
-      v-for="(loading , index) in getLoading"
-      :key="index"
-      v-model="loading.show"
-      hide-overlay
-      persistent
-      width="300"
-    >
-    <v-card color="success" dark>
-        <v-card-text>
-          <p class="text-center" v-if="loading.text">{{ loading.text}}</p>
-          <v-progress-linear
-            indeterminate
-            color="white"
-            class="mb-0"
-          >
-          </v-progress-linear>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-  </div>
+                <v-card color="success" dark>
+           <v-snackbar
+                  :key="index"
+                  v-for="(loading , index) in getLoading"
+                  v-model="loading.show"
+                  @input="updateLoading($event , index)"
+                    top   
+                    color="success"
+                    dark
+                >
+                  <v-card-text>
+                  <p class="text-center" v-if="loading.text">{{ loading.text}}</p>
+                  <v-progress-linear
+                        indeterminate
+                        color="white"
+                        class="mb-0"
+                        >
+                  </v-progress-linear>
+                  </v-card-text>
+                <v-card-actions>
+                <v-btn
+                  color="white"
+                  text
+                  @click="removeloading(index)"
+                >
+                  Close
+                </v-btn>
+                </v-card-actions>
+      </v-snackbar>
+    </v-card>
   </v-app> 
 </template>
 
@@ -76,6 +84,7 @@ export default {
       checkUserState:'user/setLoggedInState',
       removeNotification:'application/removeNotification',
       addNotification:'application/addNotification',
+      removeloading:'loading/removeloading',
       me:'user/me'
 
     }),
@@ -83,6 +92,12 @@ export default {
     updateNotification(show , index){
         if(!show){
           this.removeNotification(index);
+        }
+    },
+
+    updateLoading(show , index){
+        if(!show){
+          this.removeloading(index);
         }
     },
   },
