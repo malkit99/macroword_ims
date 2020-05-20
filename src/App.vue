@@ -60,33 +60,24 @@
 import {mapGetters , mapActions } from 'vuex'
 export default {
   name: 'App',
-  created() {
-   this.checkUserState()
-   .then(()=>{
-     if(this.loggedIn){
-       this.me().then(() => {   
-       })
-     }
-   }) 
-  },
+
 
   computed: {
     ...mapGetters({
       getNotifications:'application/getNotifications',
       getLoading:'loading/getLoading',
-      loggedIn:'user/loggedIn'
+     
     }),
    
   },
 
+ 
+
   methods: {
     ...mapActions({
-      checkUserState:'user/setLoggedInState',
       removeNotification:'application/removeNotification',
       addNotification:'application/addNotification',
       removeloading:'loading/removeloading',
-      me:'user/me'
-
     }),
 
     updateNotification(show , index){

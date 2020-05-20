@@ -3,16 +3,19 @@ export default{
 
     getWebsite(ctx){
         return new Promise((resolve , reject) => {
-            axios.get('api/website-detail')
+            axios.get('sanctum/csrf-cookie')
             .then((response) => {
-                if(response.status == 201){
-                    const data = response.data.data ;
-                    ctx.commit('SET_WEB_DETAIL' , data);
-                }
-                resolve(response)
-            })
-            .catch((error) => {
-                reject(error);
+                axios.get('api/website-detail')
+                .then((response) => {
+                    if(response.status == 201){
+                        const data = response.data.data ;
+                        ctx.commit('SET_WEB_DETAIL' , data);
+                    }
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error);
+                })
             })
 
         });
@@ -207,6 +210,70 @@ export default{
                 if(response.status == 201){
                     const data = response.data.data ;
                     ctx.commit('SET_Job_OPPORTUNITY' , data);
+                }
+                resolve(response);
+            })
+            .catch((error) => {
+               reject(error);
+            })
+        })
+    },
+
+    getFacilities(ctx , item){
+        return new Promise((resolve , reject) => {
+            axios.get('api/our-facility')
+            .then((response) => {
+                if(response.status == 201){
+                    const data = response.data.data ;
+                    ctx.commit('SET_FACILITIES' , data);
+                }
+                resolve(response);
+            })
+            .catch((error) => {
+               reject(error);
+            })
+        })
+    },
+
+    getDiscounts(ctx , item){
+        return new Promise((resolve , reject) => {
+            axios.get('api/our-discount')
+            .then((response) => {
+                if(response.status == 201){
+                    const data = response.data.data ;
+                    ctx.commit('SET_DISCOUNT' , data);
+                }
+                resolve(response);
+            })
+            .catch((error) => {
+               reject(error);
+            })
+        })
+    },
+
+    getCourseName(ctx , item){
+        return new Promise((resolve , reject) => {
+            axios.get('api/course-name')
+            .then((response) => {
+                if(response.status == 201){
+                    const data = response.data.data ;
+                    ctx.commit('SET_COURSE_NAME' , data);
+                }
+                resolve(response);
+            })
+            .catch((error) => {
+               reject(error);
+            })
+        })
+    },
+
+    getCourseDiscountName(ctx , item){
+        return new Promise((resolve , reject) => {
+            axios.get('api/course-discount')
+            .then((response) => {
+                if(response.status == 201){
+                    const data = response.data.data ;
+                    ctx.commit('SET_DISCOUNT_COURSE_NAME' , data);
                 }
                 resolve(response);
             })

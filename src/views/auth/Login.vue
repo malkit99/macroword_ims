@@ -102,6 +102,7 @@ export default {
   methods: {
     ...mapActions({
       loginUser: "user/loginUser",
+      signIn: "auth/signIn",
       addNotification: "application/addNotification",
       addLoading: "loading/addLoading",
       removeloading: "loading/removeloading",
@@ -113,7 +114,7 @@ export default {
           return ;
         }
         this.addLoading({ show: true , text: "Please Wait your requset proceding..." });
-        this.loginUser(this.user)
+        this.signIn(this.user)
         .then((response) => {
           this.removeloading({ show: false });
           this.$router.push({ name: "dashboard" });

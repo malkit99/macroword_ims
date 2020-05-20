@@ -4,7 +4,7 @@ export default function checkPermissions({next , from , router, to}){
     const requiredPermissions = to.meta.permissions
    
     if(!from.name){
-        store.dispatch('user/me').then(() => {
+        store.dispatch('auth/me').then(() => {
 
           const canEnter = can(requiredPermissions);
             
@@ -13,7 +13,7 @@ export default function checkPermissions({next , from , router, to}){
                 return next();
         
             }
-            return router.push({ name: 'home'})
+            return router.push({ name: 'dashboard'})
         })
     }
     else{ 
@@ -23,7 +23,7 @@ export default function checkPermissions({next , from , router, to}){
             return next();
     
         }
-        return router.push({ name: 'home'})
+        return router.push({ name: 'dashboard'})
     }
 
 

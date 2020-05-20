@@ -1,10 +1,10 @@
 <template>
 <v-col cols="12" md="12" sm="12">
-    <v-card>
+    <v-card color="blue darken-4" dark>
     <ValidationObserver ref="contactForm" >
     <v-form @submit.prevent="save">
         <v-card-title primary-title>
-            Get a Call Back
+            Registered For Discounted Course
         </v-card-title>
         <v-alert type="error" dense outlined v-if="allerror">
             <ul v-for="(error , index) in allerror" :key="index">
@@ -55,7 +55,7 @@
             <v-col cols="12" offset-md="2" offset-sm="2" sm="8" md="8">
                 <v-card-actions>
               <v-btn color="red" dark @click="reset">Reset</v-btn>
-              <v-btn color="success" dark  type="submit">Get a Call Back</v-btn>
+              <v-btn color="success" dark  type="submit">Registered For Discount</v-btn>
                 </v-card-actions>
             </v-col>
         </v-form>
@@ -94,7 +94,7 @@ extend("max", {
   message: "{_field_} may not be greater than {length} characters"
 });
 export default {
-    name:"CourseEnquery",
+    name:"RegisterDiscount",
        components: {
         ValidationProvider,
         ValidationObserver
@@ -125,14 +125,14 @@ export default {
 
     computed: {
         ...mapGetters({
-            courses:'website_detail/getCourseName',
+            courses:'website_detail/getCourseDiscountName',
         }),
     },
 
     methods: {
 
         ...mapActions({
-            saveCalBack:'contact/saveCalBack',
+            saveCallBack:'contact/saveCallBack',
         }),
 
         save(){
@@ -140,7 +140,7 @@ export default {
                 if(!success){
                     return ;
                 }
-                this.saveCalBack(this.contact)
+                this.saveCallBack(this.contact)
                 .then((response) => {
                 if(response.status == 201){
                         this.allerror = "";

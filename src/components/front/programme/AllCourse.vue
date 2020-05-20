@@ -11,7 +11,7 @@
           v-model="tab"
         >
           <v-tabs-slider color="yellow"></v-tabs-slider>
-          <v-tab v-for="(item , index) in items" :key="index" @click.prevent="getCourse(item.slug)">
+          <v-tab v-for="(item , index) in items" :key="index" @click="getCourse(item.name)">
             {{ item.name }}
           </v-tab>
         </v-tabs>
@@ -31,7 +31,7 @@
             :key="n"
             :class="n === 1 ? 'mb-6' : ''"
             >
-                <v-col cols="12" sm="2" md="4"  v-for="(course , index) in courses" :key="index">
+                <v-col cols="12" sm="2" md="4"  v-for="(course , index) in filterCourse" :key="index">
                     <v-card
                     min-width="250"
                     >
@@ -74,36 +74,38 @@ import { mapGetters, mapActions } from 'vuex'
     data () {
       return {
         tab: null,
+        slug:"",
       }
     },
 
     computed: {
       ...mapGetters({
         items:'website_detail/getCategory',
-        courses:'website_detail/getCourseByCategorySlug',
+        courses:'website_detail/getPopularCourse',
       }),
+
+      filterCourse(){
+        return this.courses.filter((course) =>{
+          return course.category.match(this.slug);
+        })
+      },
     },
 
     methods: {
       ...mapActions({
-        getcourseBySlug:'website_detail/getcourseBySlug',
         singleCourseBySlug:'website_detail/singleCourseBySlug'
       }),
-      getCourse(item){
-        this.getcourseBySlug(item)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      },
+    
       courseBySlug(course){
         this.singleCourseBySlug(course)
         .then((response) => {
           this.$router.push({name: 'course-detail'});
         })
       },
+
+      getCourse(item){
+        this.slug = item
+      }
     },
   }
 </script>

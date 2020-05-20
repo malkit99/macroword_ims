@@ -1,0 +1,226 @@
+<template>
+  <v-card>
+    <v-toolbar color="primary" dark>
+      <v-card-title>Edit Facility</v-card-title>
+      <v-spacer></v-spacer>
+      <v-btn color="primary" class="mb-2" :to="{name:'facility-home'}">Back</v-btn>
+    </v-toolbar>
+
+    <v-card-text>
+      <ValidationObserver ref="facilityForm" v-slot="{ validate, reset }">
+        <v-form @submit.prevent="save">
+          <v-card-text>
+            <v-alert type="primary" dense outlined v-if="allerror">
+              <ul v-for="(error , index) in allerror" :key="index">
+                <li>{{error[0]}}</li>
+              </ul>
+            </v-alert>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="12" md="8" offset-md="2">
+                  <ValidationProvider v-slot="{ errors }" name="Facility Name" rules="required|alpha_spaces|min:3|max:30" >
+                    <v-text-field
+                      v-model="faci.facility_name"
+                      label="Facility Name"
+                      :error-messages="errors"
+                    ></v-text-field>
+                  </ValidationProvider>
+
+                   <ValidationProvider v-slot="{ errors }" name="Title" rules="required|alpha_spaces|min:3|max:50" >
+                    <v-text-field
+                      v-model="faci.title"
+                      label="Facility Title"
+                      :error-messages="errors"
+                    ></v-text-field>
+                  </ValidationProvider>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="12" md="8" offset-md="2">
+                  <ValidationProvider v-slot="{ errors }" name="Description" rules="required|min:10|max:200" >
+                    <v-textarea
+                      label="Description"
+                      auto-grow
+                      outlined
+                      v-model="faci.description"
+                      rows="2"
+                      :error-messages="errors"
+                      row-height="15"
+                      clearable
+                    ></v-textarea>
+                  </ValidationProvider>
+                </v-col>
+              </v-row>
+
+              <v-row>
+                <v-col cols="12" sm="6" md="6">
+                  <v-list-item-avatar tile size="200" color="grey">
+                    <v-img :src="imageURL ? imageURL : faci.facility_image"></v-img>
+                  </v-list-item-avatar>
+                  <ValidationProvider
+                    v-slot="{ errors , validate }"
+                    name="Facility Image"
+                    rules="required|image"
+                  >
+                <p id="error" class="red--text">{{ errors[0] }}</p>
+                    <input
+                      type="file"
+                      ref="fileInput"
+                      accept="image/*"
+                      name="profile_image"
+                      :error-messages="errors"
+                      style="display:none"
+                      @change="onFilePicked($event) || validate($event)"
+                    />
+                  </ValidationProvider>
+                </v-col>
+                <v-col cols="12" sm="6" md="6">
+                <v-btn color="error" class="mr-2"  @click="onpickFile">Image Upload</v-btn>
+                  <v-btn color="error" class="mr-2" @click="clear">Reset</v-btn>
+                  <v-btn color="success" type="submit">Save</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+        </v-form>
+      </ValidationObserver>
+    </v-card-text>
+  </v-card>
+</template>
+
+<script>
+import axios from 'axios';
+import { mapActions } from "vuex";
+import { required, max, min, alpha_spaces , image } from "vee-validate/dist/rules";
+import {
+  extend,
+  ValidationObserver,
+  ValidationProvider,
+  setInteractionMode
+} from "vee-validate";
+
+setInteractionMode("eager");
+
+extend("image", {
+  ...image,
+  message: "{_field_} field must be an image"
+});
+extend("alpha_spaces", {
+  ...alpha_spaces,
+  message: "{_field_} field may only contain alphabetic characters"
+});
+extend("required", {
+  ...required,
+  message: "{_field_} can not be empty"
+});
+extend("min", {
+  ...min,
+  message: "{_field_} may not be less than {length} characters"
+});
+
+extend("max", {
+  ...max,
+  message: "{_field_} may not be greater than {length} characters"
+});
+export default {
+  name: "EditFacility",
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
+  data: () => {
+    return {
+      imageURL: "",
+      faci: {
+        facility_name: "",
+        title: "",
+        description: "",
+      },
+      facility_image: "",
+      allerror: "",
+    };
+  },
+  created() {
+    this.initialize();
+  },
+  methods: {
+    ...mapActions({
+        addNotification: "application/addNotification",
+        getFacilityById:'facility/getFacilityById',
+        addLoading: "loading/addLoading",
+        removeloading: "loading/removeloading",
+    }),
+
+initialize() {
+    const id = this.$route.params.id ;
+      this.getFacilityById(id)
+        .then(response => { 
+          this.faci = response.data.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    onpickFile() {
+      this.$refs.fileInput.click();
+    },
+
+    onFilePicked(event) {
+      const files = event.target.files;
+      this.readFile(files);
+      this.facility_image = files[0];
+    },
+
+    readFile(files) {
+      const fileName = files[0].name;
+      if (fileName.lastIndexOf(".") <= 0) {
+        return alert("Please add a valid file");
+      }
+      const fileReader = new FileReader();
+      fileReader.addEventListener("load", () => {
+        this.imageURL = fileReader.result;
+      });
+      fileReader.readAsDataURL(files[0]);
+    },
+
+    save() {
+      this.$refs.facilityForm.validate().then(success => {
+        if (!success) {
+          return;
+        }
+        this.allerror = "";
+        let data = new FormData();
+        data.append('facility_name' , this.faci.facility_name),
+        data.append('title' , this.faci.title),
+        data.append('description' , this.faci.description),
+        data.append('facility_image' , this.facility_image),
+        this.addLoading({ show: true , text: "Please Wait Data Uploading ..." });
+        axios.post(`api/facility/update/${this.$route.params.id}`, data)
+          .then(response => {
+            this.removeloading({ show: false });   
+            this.$router.push({ name: "facility-home" });
+            this.addNotification({
+              show: true,
+              text: "Facility Updated Successfully"
+            });
+          })
+          .catch(error => {
+              if(error.response.status == 422){
+                this.removeloading({ show: false });   
+                this.allerror = error.response.data.errors;
+              }
+          });
+      });
+      this.allerror = "";
+    },
+
+    clear() {
+        (this.faci.facility_name = ""),
+        (this.faci.description = ""),
+        (this.faci.title = ""),
+        (this.facility_image = ""),
+        this.$refs.facilityForm.reset();
+    }
+  }
+};
+</script>

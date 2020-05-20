@@ -8,7 +8,7 @@
       :key="n"
       :class="n === 1 ? 'mb-6' : ''"
       >
-         <v-col cols="12" sm="6" md="3" v-for="k in n+3 " :key="k">
+         <v-col cols="12" sm="6" md="3" v-for="( item , index) in  items.slice(0,4) " :key="index">
                     <v-card
                     color="white darken-4"
                     dark
@@ -16,19 +16,17 @@
                     class="mr-5"
                     >
                     <v-img
-                    class="white--text align-end"
+                    class="white--text align-center"
                     height="200px"
-                    src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+                    :src="item.facility_image"
                     >
-                    <v-card-title>Top 10 Australian beaches</v-card-title>
+                    <div class="text-center headline ">{{ item.facility_name}}</div>
+                    <div class="text-center caption ">{{ item.title}}</div>
                     </v-img>
 
-                    <v-card-subtitle class="pb-0">Number 10</v-card-subtitle>
 
                     <v-card-text class="text--primary">
-                    <div>Whitehaven Beach</div>
-
-                    <div>Whitsunday Island, Whitsunday Islands</div>
+                    <div class="text-center">{{ item.description}}</div>
                     </v-card-text>
                     </v-card>
          </v-col>
@@ -72,7 +70,7 @@
                 from="1" 
                 to="5000" 
                 duration="10000"
-                 from-color="#067511" 
+                from-color="#067511" 
                 to-color="#f7f7f7" 
                 easing="easeOutQuad"
                 :formatter="formatter"
@@ -103,11 +101,21 @@
   
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name:"WhyChooseUs",
     data() {
         return {
-    methods: {
+
+        }
+    },
+    computed: {
+        ...mapGetters({
+            items:'website_detail/getFacility',
+        }),
+    },
+
+        methods: {
         formatter: function (num) {
             return num.toFixed(2)
         },
@@ -115,9 +123,7 @@ export default {
         startAnimate: function () {
             this.$refs.myNum.start()
         }
-    }
         }
-    },
  
 }
 </script>

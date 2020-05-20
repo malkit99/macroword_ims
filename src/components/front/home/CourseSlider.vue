@@ -19,7 +19,7 @@
       <v-btn
         color="deep-purple lighten-2"
         text
-        @click="reserve"
+        @click="courseBySlug(banner.slug)"
       >
       More Info...
       </v-btn>
@@ -36,13 +36,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters , mapActions} from 'vuex'
   export default {
     data () {
       return {
         swiperOption: {
             slidesPerView: 3,
             spaceBetween: 40,
+        autoplay: {
+            delay: 2500,
+            disableOnInteraction: false
+          },  
           pagination: {
             el: '.swiper-pagination',
             clickable: true
@@ -80,6 +84,18 @@ import { mapGetters } from 'vuex'
     },
     mounted() {
       this.mySwiper.slideTo(3, 1000, false)
-    }
+    },
+
+    methods: {
+      ...mapActions({
+        singleCourseBySlug:'website_detail/singleCourseBySlug'
+      }),
+      courseBySlug(course){
+        this.singleCourseBySlug(course)
+        .then((response) => {
+          this.$router.push({name: 'course-detail'});
+        })
+      },
+    },
   }
 </script>

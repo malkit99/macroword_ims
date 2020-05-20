@@ -49,4 +49,18 @@ export default{
     getJobOpportunity(state){
         return state.jobOpportunities ;
     },
+
+    getFacility(state){
+        return state.facilities ;
+    },
+
+    getDiscount(state){
+        return state.discounts ;
+    },
+    getCourseName(state){
+        return state.courseName;
+    },
+    getCourseDiscountName(state){
+        return state.courseDiscountName;
+    },
 };

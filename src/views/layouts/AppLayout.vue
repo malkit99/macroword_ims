@@ -115,7 +115,7 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item @click="logout" v-if="loggedIn" >
+        <v-list-item @click="logout" v-if="authencated" >
           <v-list-item-title>Logout</v-list-item-title>
            <v-btn icon > <v-icon>mdi-bell</v-icon></v-btn>
         </v-list-item>
@@ -159,15 +159,13 @@ import {mapGetters , mapActions } from 'vuex'
       items: [
         { icon: 'mdi-account-circle', text: 'Dashboard' , link:'/dashboard' },
         { icon: 'mdi-account-circle', text: 'Manage Users' , link:'/users'},
-        {
-          icon: 'mdi-chevron-up',
-          'icon-alt': 'mdi-chevron-down',
-          text: 'Clender',
-          model: true,
+
+         { icon: 'mdi-chevron-up', 'icon-alt': 'mdi-chevron-down', text: 'Manage Enquery', model: true,
           children: [
-            { icon: 'mdi-plus', text: 'Clender', link:'/clender'},
+            { icon: 'mdi-plus', text: 'All Enquery ', link:'/enquery'},
           ],
         },
+      
         {
           icon: 'mdi-chevron-up',
           'icon-alt': 'mdi-chevron-down',
@@ -184,18 +182,24 @@ import {mapGetters , mapActions } from 'vuex'
             { text: 'Discount',icon: 'mdi-account-circle', link:'/discount'},
             { text: 'Slider',icon: 'mdi-account-circle', link:'/slider'},
             { text: 'Website',icon: 'mdi-account-circle', link:'/website'},
+            { text: 'Academy Facility',icon: 'mdi-account-circle', link:'/facility'},
             { text: 'Country Data',icon: 'mdi-account-circle', link:'/country'},
             { text: 'Master Data',icon: 'mdi-account-circle',link:'/master-home'},
+          ],
+        },
+
+        { icon: 'mdi-chevron-up', 'icon-alt': 'mdi-chevron-down', text: 'Clender', model: true,
+          children: [
+            { icon: 'mdi-plus', text: 'Clender', link:'/clender'},
           ],
         },
       ],
 
     }),
-
-
+    
       computed: {
         ...mapGetters({
-          loggedIn:'user/loggedIn',
+          authencated:'auth/authencated',
         }),
       
       },
@@ -203,15 +207,16 @@ import {mapGetters , mapActions } from 'vuex'
 
         methods: {
     ...mapActions({
-        loggedOut:'user/loggedOut',
-        addNotification:'application/addNotification'
+        loggedOut:'auth/loggedOut',
+        addNotification:'application/addNotification',
+        checkUserState:'user/setLoggedInState',
    
     }),
 
     logout(){
       this.loggedOut()
       .then(()=>{
-        this.$router.push({name:'login'});
+        this.$router.push({name:'signin'});
          this.addNotification({
             show: true,
             text : 'You are successfully Logout'

@@ -6,14 +6,15 @@
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
         <template>
-          <v-btn color="primary" dark class="mx-2" :to="{name:'create-user'}">Create User</v-btn>
+          <v-btn color="primary" dark class="mx-2" :to="{name:'create-user'}" v-if="$can('All')">Create User</v-btn>
           <v-btn
             color="primary"
             dark
             class="mx-2"
             :to="{name:'create-permission'}"
+            v-if="$can('All')"
           >Manage Permission</v-btn>
-          <v-btn color="primary" dark class="mx-2" :to="{name:'create-user-role'}">Manage Role</v-btn>
+          <v-btn color="primary" dark class="mx-2" :to="{name:'create-user-role'}" v-if="$can('All')" >Manage Role</v-btn>
         </template>
         <v-dialog v-model="dialog" persistent max-width="600px">
                 <v-card

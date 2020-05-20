@@ -3,24 +3,20 @@
 
   <div v-swiper:mySwiper="swiperOption">
     <div class="swiper-wrapper">
-      <div class="swiper-slide" :key="index" v-for="(banner , index) in jobs">
-    <v-col cols="12" sm="6" md="2">
-                   <v-card
-                    color="white darken-4"
-                    dark
-                    min-width="200"
-                    class="mr-5"
-                    >
-                    <v-img
-                    class="white--text align-end"
-                    height="150px"
-                    :src="banner.job_image"
-                    :alt="banner.company"
-                    >
-                    <v-card-title>{{ banner.company_name}}</v-card-title>
-                    </v-img>
-                    </v-card>
-          </v-col>
+      <div class="swiper-slide" :key="index" v-for="(item , index) in items">
+            <v-col cols="12" md="12" sm="12">
+    <v-card >
+          <v-img
+            :src="item.discount_image"
+            class="align-center"
+          >
+          <div class="display-2 text-center font-weight-bold purple--text" >Get Discount {{item.discount}} %</div>
+          <div class="display-2 text-center font-weight-bold purple--text" >{{item.last}}</div>
+          <div class="display-2 text-center font-weight-bold red--text" >{{ item.title}} </div>
+          <div class=" headline text-center font-weight-bold white--text" >{{ item.description}}</div>
+          </v-img>
+    </v-card>
+    </v-col>
       </div>
     </div>
      <div class="swiper-button-prev" slot="button-prev"></div>
@@ -31,14 +27,13 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters , mapActions} from 'vuex'
   export default {
-    name:"JobOpportunities",
+      name:"Discount",
     data () {
       return {
-
         swiperOption: {
-            slidesPerView: 3,
+            slidesPerView: 1,
             spaceBetween: 40,
           autoplay: {
             delay: 2500,
@@ -54,15 +49,15 @@ import { mapGetters } from 'vuex'
           },
              breakpoints: {
             1024: {
-              slidesPerView: 5,
+              slidesPerView: 1,
               spaceBetween: 40
             },
             768: {
-              slidesPerView: 4,
+              slidesPerView: 1,
               spaceBetween: 30
             },
             640: {
-              slidesPerView: 2,
+              slidesPerView: 1,
               spaceBetween: 20
             },
             320: {
@@ -76,11 +71,27 @@ import { mapGetters } from 'vuex'
 
     computed: {
       ...mapGetters({
-         jobs:'website_detail/getJobOpportunity',
+        items:'website_detail/getDiscount'
       }),
     },
     mounted() {
       this.mySwiper.slideTo(3, 1000, false)
-    }
+    },
+
+    methods: {
+      ...mapActions({
+        singleCourseBySlug:'website_detail/singleCourseBySlug'
+      }),
+      courseBySlug(course){
+        this.singleCourseBySlug(course)
+        .then((response) => {
+          this.$router.push({name: 'course-detail'});
+        })
+      },
+    },
   }
 </script>
+
+
+
+

@@ -41,6 +41,35 @@
           
 <!-- course template end here -->
 
+<!-- dicount component start here  -->
+          <v-row
+          align="center" 
+          justify="center"
+          >
+            <v-alert
+            border="bottom"
+            colored-border
+            color="deep-purple accent-4"
+            class="display-1 , font-weight-bold , text-center"
+            >
+            Offer & Discount
+            </v-alert>         
+          </v-row>
+  <v-row
+  no-gutters
+  align="center"
+  justify="center"
+  class="mb-2"
+  >
+    <v-col cols="12" sm="12" md="6">
+        <discount></discount>
+    </v-col>
+    <v-col cols="12" sm="12" md="6">
+        <register-discount></register-discount>
+    </v-col>
+  </v-row>
+
+<!-- dicount component start here  -->
 <!-- testimonial component start here  -->
 
           <v-row
@@ -74,7 +103,7 @@
           </v-row>
 
          
-            <event-component></event-component>
+  <event-component></event-component>
 
 <!-- event component end here  -->
 <!-- our authorization component start here  -->
@@ -105,6 +134,8 @@ import EventComponent from '../../components/front/home/EventComponent';
 import LatestEvent from '../../components/front/home/LatestEvent';
 import WhyChooseUs from '../../components/front/home/WhyChooseUs';
 import OurAuthorization from '../../components/front/home/OurAuthorization';
+import Discount from '../../components/front/home/Discount';
+import RegisterDiscount from '../../components/front/home/RegisterDiscount';
 export default {
   name:"Home",
   components:{
@@ -116,6 +147,8 @@ export default {
     LatestEvent,
     WhyChooseUs,
     OurAuthorization,
+    Discount,
+    RegisterDiscount,
     }
 
 }

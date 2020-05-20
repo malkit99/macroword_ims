@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import user from './user/index'
 import application from './application/index'
+import auth from './auth/index'
 import loading from './loading/index'
 import permission from './permission/index'
 import role from './role/index'
@@ -20,6 +21,7 @@ import slider from './slider/index'
 import discount from './discount/index'
 import service from './service/index'
 import country from './country/index'
+import facility from './facility/index'
 import contact from './front/contact/index'
 import website_detail from './front/website_detail/index'
 
@@ -58,5 +60,7 @@ export default new Vuex.Store({
     service,
     country,
     website_detail,
+    facility,
+    auth,
   }
 })

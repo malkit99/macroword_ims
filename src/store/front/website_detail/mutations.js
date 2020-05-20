@@ -46,4 +46,20 @@ export default{
     SET_Job_OPPORTUNITY(state , data){
         state.jobOpportunities = data ;
     },
+
+    SET_FACILITIES(state , data){
+        state.facilities = data ;
+    },
+
+    SET_DISCOUNT(state , data){
+        state.discounts = data ;
+    },
+
+    SET_COURSE_NAME(state , data){
+        state.courseName = data ;
+    },
+
+    SET_DISCOUNT_COURSE_NAME(state , data){
+        state.courseDiscountName = data ;
+    },
 };

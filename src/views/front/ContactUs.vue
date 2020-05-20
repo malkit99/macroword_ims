@@ -1,19 +1,25 @@
 <template>
   <div>
-    <!-- extra page header start here  -->
+  <v-container fluid>
   <v-parallax src="https://cdn.vuetifyjs.com/images/parallax/material.jpg" height="200">
     <v-overlay value="true" absolute color="black darken-4">        
                   <h1 class="text-center">Contact Us</h1>
                   <h4 class="text-center">Learn From Professional</h4>
     </v-overlay>  
   </v-parallax>
-  <v-container fluid>
       <v-row>
-      <v-col cols="12" sm="12" xs12 md="6">
-         <contact-component></contact-component>
-      </v-col>
-    <v-col cols="12" sm="12" xs12 md="6">
+      <v-col cols="12" sm="12"  md="6">
+        <v-row>
+          <v-col cols="12" md="12" sm="12">
          <addvirtiesment-component></addvirtiesment-component>
+          </v-col>
+          <v-col cols="12" md="12" sm="12">
+            <discount></discount>
+          </v-col>
+        </v-row>
+      </v-col>
+    <v-col cols="12" sm="12"  md="6">     
+         <contact-component></contact-component>
     </v-col>
       </v-row>
     <v-row>
@@ -33,12 +39,14 @@
 import GoogleMap from '../../components/front/contact/GoogleMap'
 import ContactComponent from '../../components/front/contact/ContactComponent'
 import AddvirtiesmentComponent from '../../components/front/contact/AddvirtiesmentComponent'
+import Discount from '../../components/front/home/Discount';
 export default {
   name:"Programme",
   components:{ 
-      GoogleMap ,
+      GoogleMap,
       ContactComponent,
       AddvirtiesmentComponent,
+      Discount,
     },
 }
 </script>

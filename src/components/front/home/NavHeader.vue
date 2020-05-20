@@ -123,7 +123,7 @@ export default {
               { icon: "mdi-account-circle", text: "About", link: "about-home" },
               { icon: "mdi-chevron-up", "icon-alt": "mdi-chevron-down", text: "Programme", link: "programme" },
               { icon: "mdi-chevron-up", text: "Contact" , link: "contact-us"},
-              { icon: "mdi-login", text: "Login" , link: "/login"}
+              { icon: "mdi-login", text: "Login" , link: "/signin"}
             ],
           }
     },

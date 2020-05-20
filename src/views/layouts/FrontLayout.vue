@@ -24,6 +24,10 @@ export default {
     this.getEvent();
     this.getAuthorization();
     this.getTeam();
+    this.getFacilities();
+    this.getDiscounts();
+    this.getCourseName();
+    this.getCourseDiscountName();
   },
   methods: {
     ...mapActions({
@@ -35,6 +39,10 @@ export default {
       getAuthorization:'website_detail/getAuthorization',
       getTeam:'website_detail/getTeam',
       getCategory:'website_detail/getCategory',
+      getFacilities:'website_detail/getFacilities',
+      getDiscounts:'website_detail/getDiscounts',
+      getCourseName:'website_detail/getCourseName',
+      getCourseDiscountName:'website_detail/getCourseDiscountName',
     }),
   },
 };

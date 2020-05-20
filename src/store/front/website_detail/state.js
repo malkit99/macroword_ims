@@ -12,4 +12,9 @@ export default{
     singleCourse:[],
     courseContent:[],
     jobOpportunities:[],
+    facilities:[],
+    discounts:[],
+    courseName:[],
+    courseDiscountName:[],
+    
 };
