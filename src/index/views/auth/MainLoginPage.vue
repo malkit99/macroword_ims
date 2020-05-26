@@ -106,7 +106,7 @@
                 large  
                 top
                 right
-                :to="{path:'/signin'}"
+                @click="toStudentLogin"
                 >
                 <v-icon>mdi-home</v-icon>
                 </v-btn>
@@ -164,6 +164,10 @@ export default {
     methods: {
         toAdmin(){
             this.$router.push({path:'/admin'})
+            location.reload()
+        },
+          toStudentLogin(){
+            this.$router.push({path:'/student'})
             location.reload()
         }
     },

@@ -1,7 +1,7 @@
 import store from '../store'
 export default (permissions) => {
     
-const userPermissions = store.getters['auth/user'].permissions
+const userPermissions = store.getters['auth/studentUser'].permissions
     let canEnter = false;
     
     if(!userPermissions || !permissions){

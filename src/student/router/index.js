@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import student from './student'
+import student_auth from './student_auth'
 
 Vue.use(VueRouter)
 
 var allRoutes = []
-allRoutes = allRoutes.concat(student)
+allRoutes = allRoutes.concat(student , student_auth)
 const routes = allRoutes
 
 const router = new VueRouter({

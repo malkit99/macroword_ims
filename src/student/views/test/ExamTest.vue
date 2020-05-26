@@ -6,6 +6,6 @@
 </template>
 <script>
 export default {
-    name:"StudentDashboard"
+    name:"ExamTest"
 }
 </script>

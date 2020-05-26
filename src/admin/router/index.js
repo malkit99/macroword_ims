@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import admin from './admin'
+import center_auth from './center_auth'
 
 Vue.use(VueRouter)
 
 var allRoutes = []
-allRoutes = allRoutes.concat(admin)
+allRoutes = allRoutes.concat(admin , center_auth )
 const routes = allRoutes
 
 const router = new VueRouter({

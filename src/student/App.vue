@@ -1,31 +1,96 @@
 <template>
-  <v-app id="app">
-    <div id="nav">
-      <router-link to="/dashboard">Student Dashboard</router-link> |
-      <router-link to="/exam">Exam</router-link>
-    </div>
-    <v-content>
+  <v-app>
+
       <router-view></router-view>
-    </v-content>
-  </v-app>
+
+     <v-snackbar
+                  :key="index"
+                  v-for="(snackbar , index) in getNotifications"
+                  v-model="snackbar.show"
+                  @input="updateNotification($event , index)"
+                    top
+                    color="success"
+                    dark
+                >
+                  {{ snackbar.text }}
+                  <v-btn
+                    color="white"
+                    text
+                    @click="removeNotification(index)"
+                  >
+                    Close
+                  </v-btn>
+      </v-snackbar>
+
+                <v-card color="success" dark>
+           <v-snackbar
+                  :key="index"
+                  v-for="(loading , index) in getLoading"
+                  v-model="loading.show"
+                  @input="updateLoading($event , index)"
+                    top   
+                    color="success"
+                    dark
+                >
+                  <v-card-text>
+                  <p class="text-center" v-if="loading.text">{{ loading.text}}</p>
+                  <v-progress-linear
+                        indeterminate
+                        color="white"
+                        class="mb-0"
+                        >
+                  </v-progress-linear>
+                  </v-card-text>
+                <v-card-actions>
+                <v-btn
+                  color="white"
+                  text
+                  @click="removeloading(index)"
+                >
+                  Close
+                </v-btn>
+                </v-card-actions>
+      </v-snackbar>
+    </v-card>
+  </v-app> 
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+<script>
+
+import {mapGetters , mapActions } from 'vuex'
+export default {
+  name: 'App',
+
+
+  computed: {
+    ...mapGetters({
+      getNotifications:'application/getNotifications',
+      getLoading:'loading/getLoading',
+     
+    }),
+   
+  },
+
+ 
+
+  methods: {
+    ...mapActions({
+      removeNotification:'application/removeNotification',
+      addNotification:'application/addNotification',
+      removeloading:'loading/removeloading',
+    }),
+
+    updateNotification(show , index){
+        if(!show){
+          this.removeNotification(index);
+        }
+    },
+
+    updateLoading(show , index){
+        if(!show){
+          this.removeloading(index);
+        }
+    },
+  },
+};
+</script>
